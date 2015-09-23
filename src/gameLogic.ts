@@ -142,24 +142,17 @@ module gameLogic {
       var svNItems : number = bd.nitems;
       var svSowDir : SowDirType = board.boardSides[turnIndexBeforeMove].sowDir;
 
+      //zero out the house from which seeds will be taken to be sown
       boardAfterMove.boardSides[turnIndexBeforeMove].house[bd.house] = 0;
       var lastVisitedLocn : LocationSown;
       lastVisitedLocn.store = false;
       while (bd.nitems > 0) {
-        if (boardAfterMove.boardSides[turnIndexBeforeMove].sowDir ===
-              SowDirType.RtoL) {//side 0 RtoL
-            lastVisitedLocn.sowDir = SowDirType.RtoL;
-            for (var i : number = bd.house - 1; i >= 0; i--) {
-              boardAfterMove.boardSides[turnIndexBeforeMove].house[bd.house]++;
-              bd.nitems--;
-              lastVisitedLocn.houseNum = i;
-              lastVisitedLocn.store = false;
-              if (bd.nitems === 0) {
-                break;
-              }
-            }
-        } else {//LtoR
-          lastVisitedLocn.sowDir = SowDirType.LtoR;
+          if (boardAfterMove.boardSides[turnIndexBeforeMove].sowDir ===
+                SowDirType.RtoL) {//side 0 RtoL
+              lastVisitedLocn.sowDir = SowDirType.RtoL;
+          } else {
+              lastVisitedLocn.sowDir = SowDirType.LtoR;
+          }
           for (var i : number = bd.house + 1; i < NUM_HOUSES; i++) {
             boardAfterMove.boardSides[turnIndexBeforeMove].house[bd.house]++;
             bd.nitems--;
@@ -169,14 +162,13 @@ module gameLogic {
               break;
             }
           }
-        }
-        if ( (bd.nitems > 0) && (svTurnIndexBeforeMove === turnIndexBeforeMove) ){// add to store
-          boardAfterMove.boardSides[turnIndexBeforeMove].store++;
-          lastVisitedLocn.houseNum = NUM_HOUSES;//invalid house num
-          lastVisitedLocn.store = true;
-          bd.nitems--;
-        }
-        turnIndexBeforeMove = 1 - turnIndexBeforeMove;//sow on the other side now
+          if ( (bd.nitems > 0) && (svTurnIndexBeforeMove === turnIndexBeforeMove) ){// add to store
+            boardAfterMove.boardSides[turnIndexBeforeMove].store++;
+            lastVisitedLocn.houseNum = NUM_HOUSES;//invalid house num
+            lastVisitedLocn.store = true;
+            bd.nitems--;
+          }
+          turnIndexBeforeMove = 1 - turnIndexBeforeMove;//sow on the other side now
       }//while
 
       //if last location was one's own house and was empty,
@@ -207,7 +199,7 @@ module gameLogic {
           firstOperation = {setTurn: {turnIndex: svTurnIndexBeforeMove}};
         } else {
           // Game continues. Now it's the opponent's turn (the turn switches from 0 to 1 and 1 to 0).
-          firstOperation = {setTurn: {turnIndex: 1 - turnIndexBeforeMove}};
+          firstOperation = {setTurn: {turnIndex: 1 - svTurnIndexBeforeMove}};
         }
       }
 
