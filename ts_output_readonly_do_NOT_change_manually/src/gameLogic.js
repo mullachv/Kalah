@@ -1,69 +1,62 @@
+var MAXSEEDS = 48;
+var SowDirType;
+(function (SowDirType) {
+    SowDirType[SowDirType["RtoL"] = 0] = "RtoL";
+    SowDirType[SowDirType["LtoR"] = 1] = "LtoR";
+})(SowDirType || (SowDirType = {}));
 var gameLogic;
 (function (gameLogic) {
-    /** Returns the initial TicTacToe board, which is a 3x3 matrix containing ''. */
+    /** Returns the initial Kalah board, each side has each of their
+     * houses filled with 4 seeds
+     */
     function getInitialBoard() {
-        return [['', '', ''],
-            ['', '', ''],
-            ['', '', '']];
+        var initialBoard;
+        initialBoard.boardSides.push({
+            store: 0,
+            house: [4, 4, 4, 4, 4, 4],
+            sowDir: SowDirType.RtoL
+        });
+        initialBoard.boardSides.push({
+            store: 0,
+            house: [4, 4, 4, 4, 4, 4],
+            sowDir: SowDirType.LtoR
+        });
+        return initialBoard;
     }
     gameLogic.getInitialBoard = getInitialBoard;
-    /**
-     * Returns true if the game ended in a tie because there are no empty cells.
-     * E.g., isTie returns true for the following board:
-     *     [['X', 'O', 'X'],
-     *      ['X', 'O', 'O'],
-     *      ['O', 'X', 'X']]
-     */
-    function isTie(board) {
-        for (var i = 0; i < 3; i++) {
-            for (var j = 0; j < 3; j++) {
-                if (board[i][j] === '') {
-                    // If there is an empty cell then we do not have a tie.
-                    return false;
-                }
-            }
-        }
-        // No empty cells, so we have a tie!
-        return true;
+    /** sum of houses === 0 ? */
+    function IsSideEmpty(side) {
+        return (side.house.reduce(function (p, c) {
+            return p + c;
+        }) === 0);
     }
     /**
-     * Return the winner (either 'X' or 'O') or '' if there is no winner.
-     * The board is a matrix of size 3x3 containing either 'X', 'O', or ''.
-     * E.g., getWinner returns 'X' for the following board:
-     *     [['X', 'O', ''],
-     *      ['X', 'O', ''],
-     *      ['X', '', '']]
+    * houses + store for the side
+    */
+    function houseAndStoreTotal(side) {
+        return (side.house.reduce(function (p, c) {
+            return p + c;
+        }) + side.store);
+    }
+    /**
+     * Returns true if the game ended in a tie
+     * Either side is empty and the house and store total === MAXSEEDS/2
+     */
+    function isTie(board) {
+        if (IsSideEmpty(board.boardSides[0]) ||
+            IsSideEmpty(board.boardSides[1])) {
+            return (houseAndStoreTotal(board.boardSides[0]) ===
+                Math.floor(MAXSEEDS / 2));
+        }
+        return false;
+    }
+    /**
+     * Return the winning side
      */
     function getWinner(board) {
-        var boardString = '';
-        for (var i = 0; i < 3; i++) {
-            for (var j = 0; j < 3; j++) {
-                var cell = board[i][j];
-                boardString += cell === '' ? ' ' : cell;
-            }
-        }
-        var win_patterns = [
-            'XXX......',
-            '...XXX...',
-            '......XXX',
-            'X..X..X..',
-            '.X..X..X.',
-            '..X..X..X',
-            'X...X...X',
-            '..X.X.X..'
-        ];
-        for (i = 0; i < win_patterns.length; i++) {
-            var win_pattern = win_patterns[i];
-            var x_regexp = new RegExp(win_pattern);
-            var o_regexp = new RegExp(win_pattern.replace(/X/g, 'O'));
-            if (x_regexp.test(boardString)) {
-                return 'X';
-            }
-            if (o_regexp.test(boardString)) {
-                return 'O';
-            }
-        }
-        return '';
+        return (houseAndStoreTotal(board.boardSides[0]) > Math.floor(MAXSEEDS / 2))
+            ? board.boardSides[0] : board.boardSides[1];
+        ;
     }
     /**
      * Returns all the possible moves for the given board and turnIndexBeforeMove.
