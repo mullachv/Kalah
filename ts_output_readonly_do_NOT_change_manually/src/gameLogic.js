@@ -11,17 +11,19 @@ var gameLogic;
      * houses filled with 4 seeds
      */
     function getInitialBoard() {
-        var initialBoard;
-        initialBoard.boardSides.push({
+        var side0 = {
             store: 0,
             house: [4, 4, 4, 4, 4, 4],
             sowDir: SowDirType.RtoL
-        });
-        initialBoard.boardSides.push({
+        };
+        var side1 = {
             store: 0,
             house: [4, 4, 4, 4, 4, 4],
             sowDir: SowDirType.LtoR
-        });
+        };
+        var initialBoard = {
+            boardSides: [side0, side1]
+        };
         return initialBoard;
     }
     gameLogic.getInitialBoard = getInitialBoard;
@@ -55,8 +57,12 @@ var gameLogic;
      * Return the winning side
      */
     function getWinner(board) {
-        return (houseAndStoreTotal(board.boardSides[0]) > Math.floor(MAXSEEDS / 2)
-            ? board.boardSides[0] : board.boardSides[1]);
+        if (IsSideEmpty(board.boardSides[0]) ||
+            IsSideEmpty(board.boardSides[1])) {
+            return (houseAndStoreTotal(board.boardSides[0]) > Math.floor(MAXSEEDS / 2)
+                ? board.boardSides[0] : board.boardSides[1]);
+        }
+        return null;
     }
     /**
      * Returns all the possible moves for the given board and turnIndexBeforeMove.
@@ -81,6 +87,31 @@ var gameLogic;
     }
     gameLogic.getPossibleMoves = getPossibleMoves;
     /**
+     * Test changes for simpleTst.html
+    */
+    function TestFunc() {
+        var bDel = { boardSideId: 0, house: 0, nitems: 4 };
+        var move = gameLogic.createMove(undefined, bDel, 0);
+        console.log("move=", move);
+        var params = { turnIndexBeforeMove: 0,
+            stateBeforeMove: {},
+            move: move };
+        var res = gameLogic.isMoveOk(params);
+        console.log("params=", params, "result=", res);
+    }
+    gameLogic.TestFunc = TestFunc;
+    function secondTest(turnIndexBeforeMove, stateBeforeMove, move, isOk) {
+        var res = isMoveOk({
+            turnIndexBeforeMove: turnIndexBeforeMove,
+            turnIndexAfterMove: null,
+            stateBeforeMove: stateBeforeMove,
+            stateAfterMove: null,
+            move: move,
+            numberOfPlayers: null });
+        console.log("res: " + res);
+    }
+    gameLogic.secondTest = secondTest;
+    /**
      * Returns the move that should be performed when player
      * with index turnIndexBeforeMove makes a move in cell row X col.
      */
@@ -92,9 +123,9 @@ var gameLogic;
         if (isTie(board) || getWinner(board) !== null) {
             throw new Error("Can only make a move if the game is not over!");
         }
-        if (bd.boardSideId !== turnIndexBeforeMove) {
-            throw new Error("Playing out of turn?");
-        }
+        // if (bd.boardSideId !== turnIndexBeforeMove) {
+        //   throw new Error("Playing out of turn?");
+        // }
         if (bd.nitems === 0) {
             throw new Error("Sowing zero seeds?");
         }
@@ -105,8 +136,8 @@ var gameLogic;
         var svSowDir = board.boardSides[turnIndexBeforeMove].sowDir;
         //zero out the house from which seeds will be taken to be sown
         boardAfterMove.boardSides[turnIndexBeforeMove].house[bd.house] = 0;
-        var lastVisitedLocn;
-        lastVisitedLocn.store = false;
+        var lastVisitedLocn = { sowDir: undefined,
+            houseNum: undefined, store: false };
         while (bd.nitems > 0) {
             if (boardAfterMove.boardSides[turnIndexBeforeMove].sowDir ===
                 SowDirType.RtoL) {
@@ -116,7 +147,7 @@ var gameLogic;
                 lastVisitedLocn.sowDir = SowDirType.LtoR;
             }
             for (var i = bd.house + 1; i < NUM_HOUSES; i++) {
-                boardAfterMove.boardSides[turnIndexBeforeMove].house[bd.house]++;
+                boardAfterMove.boardSides[turnIndexBeforeMove].house[i]++;
                 bd.nitems--;
                 lastVisitedLocn.houseNum = i;
                 lastVisitedLocn.store = false;
@@ -186,6 +217,8 @@ var gameLogic;
             var deltaValue = move[2].set.value;
             var board = stateBeforeMove.board;
             var expectedMove = createMove(board, deltaValue, turnIndexBeforeMove);
+            console.log(move);
+            console.log(expectedMove);
             if (!angular.equals(move, expectedMove)) {
                 return false;
             }
