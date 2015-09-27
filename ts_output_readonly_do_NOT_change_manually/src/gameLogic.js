@@ -68,24 +68,23 @@ var gameLogic;
      * Returns all the possible moves for the given board and turnIndexBeforeMove.
      * Returns an empty array if the game is over.
      */
-    function getPossibleMoves(board, turnIndexBeforeMove) {
-        var possibleMoves = [];
-        for (var j = 0; j < NUM_HOUSES; j++) {
-            try {
-                if (board.boardSides[turnIndexBeforeMove].house[j] !== 0) {
-                    var bd = { boardSideId: turnIndexBeforeMove,
-                        house: j,
-                        nitems: board.boardSides[turnIndexBeforeMove].house[j]
-                    };
-                    possibleMoves.push(createMove(board, bd, turnIndexBeforeMove));
-                }
-            }
-            catch (e) {
-            }
-        }
-        return possibleMoves;
-    }
-    gameLogic.getPossibleMoves = getPossibleMoves;
+    // export function getPossibleMoves(board: Board, turnIndexBeforeMove: number): IMove[] {
+    //   var possibleMoves: IMove[] = [];
+    //   for (var j = 0; j < NUM_HOUSES; j++) {
+    //     try {
+    //       if (board.boardSides[turnIndexBeforeMove].house[j] !== 0) {
+    //         var bd : BoardDelta = {boardSideId: turnIndexBeforeMove,
+    //                               house: j,
+    //                               nitems: board.boardSides[turnIndexBeforeMove].house[j]
+    //                               };
+    //         possibleMoves.push(createMove(board, bd, turnIndexBeforeMove));
+    //       }
+    //     } catch (e) {
+    //       // The cell in that position was full.
+    //     }
+    //   }
+    //   return possibleMoves;
+    // }
     /**
      * Test changes for simpleTst.html
     */
