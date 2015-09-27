@@ -89,28 +89,29 @@ var gameLogic;
     /**
      * Test changes for simpleTst.html
     */
-    function TestFunc() {
-        var bDel = { boardSideId: 0, house: 0, nitems: 4 };
-        var move = gameLogic.createMove(undefined, bDel, 0);
-        console.log("move=", move);
-        var params = { turnIndexBeforeMove: 0,
-            stateBeforeMove: {},
-            move: move };
-        var res = gameLogic.isMoveOk(params);
-        console.log("params=", params, "result=", res);
-    }
-    gameLogic.TestFunc = TestFunc;
-    function secondTest(turnIndexBeforeMove, stateBeforeMove, move, isOk) {
-        var res = isMoveOk({
-            turnIndexBeforeMove: turnIndexBeforeMove,
-            turnIndexAfterMove: null,
-            stateBeforeMove: stateBeforeMove,
-            stateAfterMove: null,
-            move: move,
-            numberOfPlayers: null });
-        console.log("res: " + res);
-    }
-    gameLogic.secondTest = secondTest;
+    // export function TestFunc() {
+    //   var bDel:BoardDelta = {boardSideId: 0, house: 0, nitems: 4};
+    //   var move:IMove = gameLogic.createMove(undefined, bDel, 0);
+    //   console.log("move=", move);
+    //   var params:IIsMoveOk = <IIsMoveOk>{turnIndexBeforeMove: 0,
+    //     stateBeforeMove: {},
+    //     move: move};
+    //   var res = gameLogic.isMoveOk(params);
+    //   console.log("params=", params, "result=", res);
+    //
+    // }
+    //
+    // export function secondTest(turnIndexBeforeMove: number, stateBeforeMove: IState,
+    //             move: IMove, isOk: boolean) {
+    //   var res = isMoveOk({
+    //     turnIndexBeforeMove: turnIndexBeforeMove,
+    //     turnIndexAfterMove: null,
+    //     stateBeforeMove: stateBeforeMove,
+    //     stateAfterMove: null,
+    //     move: move,
+    //     numberOfPlayers: null});
+    //     console.log("res: " + res);
+    // }
     /**
      * Returns the move that should be performed when player
      * with index turnIndexBeforeMove makes a move in cell row X col.
@@ -138,6 +139,7 @@ var gameLogic;
         boardAfterMove.boardSides[turnIndexBeforeMove].house[bd.house] = 0;
         var lastVisitedLocn = { sowDir: undefined,
             houseNum: undefined, store: false };
+        var startHouse = bd.house + 1;
         while (bd.nitems > 0) {
             if (boardAfterMove.boardSides[turnIndexBeforeMove].sowDir ===
                 SowDirType.RtoL) {
@@ -146,7 +148,7 @@ var gameLogic;
             else {
                 lastVisitedLocn.sowDir = SowDirType.LtoR;
             }
-            for (var i = bd.house + 1; i < NUM_HOUSES; i++) {
+            for (var i = startHouse; i < NUM_HOUSES; i++) {
                 boardAfterMove.boardSides[turnIndexBeforeMove].house[i]++;
                 bd.nitems--;
                 lastVisitedLocn.houseNum = i;
@@ -162,6 +164,7 @@ var gameLogic;
                 bd.nitems--;
             }
             turnIndexBeforeMove = 1 - turnIndexBeforeMove; //sow on the other side now
+            startHouse = 0;
         } //while
         //if last location was one's own house and was empty,
         //then capture all of the seeds from the opponent's house and one's own house
@@ -170,19 +173,26 @@ var gameLogic;
             (boardAfterMove.boardSides[svTurnIndexBeforeMove].house[lastVisitedLocn.houseNum] === 1)) {
             //get the opponent's seeds and your own (+1)
             boardAfterMove.boardSides[svTurnIndexBeforeMove].store +=
-                boardAfterMove.boardSides[1 - svTurnIndexBeforeMove].house[NUM_HOUSES - 1 - lastVisitedLocn.houseNum]
-                    + 1;
+                boardAfterMove.boardSides[1 - svTurnIndexBeforeMove]
+                    .house[NUM_HOUSES - 1 - lastVisitedLocn.houseNum]
+                    +
+                        1;
             //set own to zero
-            boardAfterMove.boardSides[svTurnIndexBeforeMove].house[lastVisitedLocn.houseNum] = 0;
+            boardAfterMove.boardSides[svTurnIndexBeforeMove]
+                .house[lastVisitedLocn.houseNum] = 0;
             //set opponent's to zero
-            boardAfterMove.boardSides[1 - svTurnIndexBeforeMove].house[NUM_HOUSES - 1 - lastVisitedLocn.houseNum] = 0;
+            boardAfterMove.boardSides[1 - svTurnIndexBeforeMove]
+                .house[NUM_HOUSES - 1 - lastVisitedLocn.houseNum] = 0;
         }
         var winner = getWinner(boardAfterMove);
         var firstOperation;
-        if (isTie(boardAfterMove) || winner !== null) {
-            // Game over.
-            firstOperation = { endMatch: { endMatchScores: winner.sowDir === SowDirType.LtoR ? [0, 1] :
-                        winner.sowDir === SowDirType.RtoL ? [1, 0] : [0, 0] } };
+        if (isTie(boardAfterMove)) {
+            //Game over
+            firstOperation = { endMatch: { endMatchScores: [0, 0] } };
+        }
+        else if (winner !== null) {
+            // Game over
+            firstOperation = { endMatch: { endMatchScores: winner.sowDir === SowDirType.LtoR ? [0, 1] : [1, 0] } };
         }
         else {
             //check for move continuation - if you end in your own store
@@ -217,8 +227,8 @@ var gameLogic;
             var deltaValue = move[2].set.value;
             var board = stateBeforeMove.board;
             var expectedMove = createMove(board, deltaValue, turnIndexBeforeMove);
-            console.log(move);
-            console.log(expectedMove);
+            //console.log( move);
+            //console.log(expectedMove);
             if (!angular.equals(move, expectedMove)) {
                 return false;
             }

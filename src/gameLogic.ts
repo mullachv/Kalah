@@ -126,29 +126,30 @@ module gameLogic {
 /**
  * Test changes for simpleTst.html
 */
-  export function TestFunc() {
-    var bDel:BoardDelta = {boardSideId: 0, house: 0, nitems: 4};
-    var move:IMove = gameLogic.createMove(undefined, bDel, 0);
-    console.log("move=", move);
-    var params:IIsMoveOk = <IIsMoveOk>{turnIndexBeforeMove: 0,
-      stateBeforeMove: {},
-      move: move};
-    var res = gameLogic.isMoveOk(params);
-    console.log("params=", params, "result=", res);
+  // export function TestFunc() {
+  //   var bDel:BoardDelta = {boardSideId: 0, house: 0, nitems: 4};
+  //   var move:IMove = gameLogic.createMove(undefined, bDel, 0);
+  //   console.log("move=", move);
+  //   var params:IIsMoveOk = <IIsMoveOk>{turnIndexBeforeMove: 0,
+  //     stateBeforeMove: {},
+  //     move: move};
+  //   var res = gameLogic.isMoveOk(params);
+  //   console.log("params=", params, "result=", res);
+  //
+  // }
+  //
+  // export function secondTest(turnIndexBeforeMove: number, stateBeforeMove: IState,
+  //             move: IMove, isOk: boolean) {
+  //   var res = isMoveOk({
+  //     turnIndexBeforeMove: turnIndexBeforeMove,
+  //     turnIndexAfterMove: null,
+  //     stateBeforeMove: stateBeforeMove,
+  //     stateAfterMove: null,
+  //     move: move,
+  //     numberOfPlayers: null});
+  //     console.log("res: " + res);
+  // }
 
-  }
-
-  export function secondTest(turnIndexBeforeMove: number, stateBeforeMove: IState,
-              move: IMove, isOk: boolean) {
-    var res = isMoveOk({
-      turnIndexBeforeMove: turnIndexBeforeMove,
-      turnIndexAfterMove: null,
-      stateBeforeMove: stateBeforeMove,
-      stateAfterMove: null,
-      move: move,
-      numberOfPlayers: null});
-      console.log("res: " + res);
-  }
   /**
    * Returns the move that should be performed when player
    * with index turnIndexBeforeMove makes a move in cell row X col.
@@ -174,10 +175,12 @@ module gameLogic {
       var svNItems : number = bd.nitems;
       var svSowDir : SowDirType = board.boardSides[turnIndexBeforeMove].sowDir;
 
+
       //zero out the house from which seeds will be taken to be sown
       boardAfterMove.boardSides[turnIndexBeforeMove].house[bd.house] = 0;
       var lastVisitedLocn : LocationSown = {sowDir: undefined,
                       houseNum: undefined, store: false};
+      var startHouse : number = bd.house + 1;
       while (bd.nitems > 0) {
           if (boardAfterMove.boardSides[turnIndexBeforeMove].sowDir ===
                 SowDirType.RtoL) {//side 0 RtoL
@@ -185,7 +188,7 @@ module gameLogic {
           } else {
               lastVisitedLocn.sowDir = SowDirType.LtoR;
           }
-          for (var i : number = bd.house + 1; i < NUM_HOUSES; i++) {
+          for (var i : number = startHouse; i < NUM_HOUSES; i++) {
             boardAfterMove.boardSides[turnIndexBeforeMove].house[i]++;
             bd.nitems--;
             lastVisitedLocn.houseNum = i;
@@ -201,6 +204,7 @@ module gameLogic {
             bd.nitems--;
           }
           turnIndexBeforeMove = 1 - turnIndexBeforeMove;//sow on the other side now
+          startHouse = 0;
       }//while
 
       //if last location was one's own house and was empty,
@@ -208,23 +212,29 @@ module gameLogic {
       // into one's store
       if( !lastVisitedLocn.store && (lastVisitedLocn.sowDir === svSowDir) &&
           (boardAfterMove.boardSides[svTurnIndexBeforeMove].house[lastVisitedLocn.houseNum] === 1) ) {
-        //get the opponent's seeds and your own (+1)
-        boardAfterMove.boardSides[svTurnIndexBeforeMove].store +=
-          boardAfterMove.boardSides[1 - svTurnIndexBeforeMove].house[NUM_HOUSES - 1 - lastVisitedLocn.houseNum]
-          + 1;
-        //set own to zero
-        boardAfterMove.boardSides[svTurnIndexBeforeMove].house[lastVisitedLocn.houseNum] = 0;
+            //get the opponent's seeds and your own (+1)
+            boardAfterMove.boardSides[svTurnIndexBeforeMove].store +=
+              boardAfterMove.boardSides[1 - svTurnIndexBeforeMove]
+              .house[NUM_HOUSES - 1 - lastVisitedLocn.houseNum]
+              +
+              1;
+            //set own to zero
+            boardAfterMove.boardSides[svTurnIndexBeforeMove]
+            .house[lastVisitedLocn.houseNum] = 0;
 
-        //set opponent's to zero
-        boardAfterMove.boardSides[1 - svTurnIndexBeforeMove].house[NUM_HOUSES - 1 - lastVisitedLocn.houseNum] = 0;
+            //set opponent's to zero
+            boardAfterMove.boardSides[1 - svTurnIndexBeforeMove]
+            .house[NUM_HOUSES - 1 - lastVisitedLocn.houseNum] = 0;
       }
       var winner = getWinner(boardAfterMove);
       var firstOperation: IOperation;
-      if (isTie(boardAfterMove) || winner !== null) {
-        // Game over.
+      if (isTie(boardAfterMove) ) {
+        //Game over
+        firstOperation = {endMatch: {endMatchScores: [0, 0]}};
+      } else if ( winner !== null) {
+        // Game over
         firstOperation = {endMatch: {endMatchScores:
-          winner.sowDir === SowDirType.LtoR ? [0, 1] :
-                      winner.sowDir === SowDirType.RtoL ? [1, 0] : [0, 0]}};
+          winner.sowDir === SowDirType.LtoR ? [0, 1] : [1, 0]}};
       } else {
         //check for move continuation - if you end in your own store
         if (lastVisitedLocn.store) {
@@ -260,8 +270,8 @@ module gameLogic {
       var deltaValue: BoardDelta = move[2].set.value;
       var board = stateBeforeMove.board;
       var expectedMove = createMove(board, deltaValue, turnIndexBeforeMove);
-      console.log( move);
-      console.log(expectedMove);
+      //console.log( move);
+      //console.log(expectedMove);
 
       if (!angular.equals(move, expectedMove)) {
         return false;

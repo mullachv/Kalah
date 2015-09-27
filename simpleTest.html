@@ -6,25 +6,68 @@
   <script>
     angular.module('myApp', []);
     //gameLogic.TestFunc();
-    gameLogic.secondTest(0, {},
-      [{setTurn: {turnIndex : 1}},
-        {set: {key: 'board', value: {
-          boardSides :
-          [
-            {//side 0
-                      store: 0,
-                      house: [0,5,5,5,5,4],
-                      sowDir: SowDirType.RtoL
-            },
-            {//side 1
-                      store: 0,
-                      house: [4,4,4,4,4,4],
-                      sowDir: SowDirType.LtoR
-            }
-          ]
-        }
-        }},
-        {set: {key: 'delta', value: { boardSideId: 0, house: 0, nitems: 4 }}}]);
+    var res = gameLogic.isMoveOk({
+      turnIndexBeforeMove: 0,
+      turnIndexAfterMove: null,
+      stateBeforeMove:
+      {board: {
+        boardSides :
+        [
+          {//side 0
+                    store: 23,
+                    house: [0,0,0,0,0,1],
+                    sowDir: SowDirType.RtoL
+          },
+          {//side 1
+                    store: 18,
+                    house: [0,1,2,3,0,0],
+                    sowDir: SowDirType.LtoR
+          }
+        ]
+      }, delta: { boardSideId: 1, house: 0, nitems: 1}},
+      stateAfterMove: null,
+      move: [{endMatch: {endMatchScores: [0, 0]}},
+                {set: {key: 'board', value:
+                {
+                  boardSides :
+                  [
+                    {//side 0
+                              store: 24,
+                              house: [0,0,0,0,0,0],
+                              sowDir: SowDirType.RtoL
+                    },
+                    {//side 1
+                              store: 18,
+                              house: [0,1,2,3,0,0],
+                              sowDir: SowDirType.LtoR
+                    }
+                  ]
+                }
+                }},
+                {set: {key: 'delta', value: { boardSideId: 0, house: 5, nitems: 1}}}],
+      numberOfPlayers: null});
+
+      console.log("Res: " + res);
+
+    // gameLogic.secondTest(0, {},
+    //   [{setTurn: {turnIndex : 1}},
+    //     {set: {key: 'board', value: {
+    //       boardSides :
+    //       [
+    //         {//side 0
+    //                   store: 0,
+    //                   house: [0,5,5,5,5,4],
+    //                   sowDir: SowDirType.RtoL
+    //         },
+    //         {//side 1
+    //                   store: 0,
+    //                   house: [4,4,4,4,4,4],
+    //                   sowDir: SowDirType.LtoR
+    //         }
+    //       ]
+    //     }
+    //     }},
+    //     {set: {key: 'delta', value: { boardSideId: 0, house: 0, nitems: 4 }}}]);
 
   </script>
 </head>

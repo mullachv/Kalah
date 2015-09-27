@@ -39,7 +39,6 @@ describe("In Kalah", function() {
         }
         }},
         {set: {key: 'delta', value: { boardSideId: 0, house: 0, nitems: 4 }}}]);
-
   });
 
   it("player 1 sowing seeds from house 1 after player 0 sowed from house 0 is legal", function() {
@@ -76,79 +75,397 @@ describe("In Kalah", function() {
             }
           ]
         }
-          }},
+        }},
         {set: {key: 'delta', value: { boardSideId: 1, house: 1, nitems: 4}}}]);
   });
-  //
-  // it("placing an O in a non-empty position is illegal", function() {
-  //   expectIllegalMove(1,
-  //     {board:
-  //       [['X', '', ''],
-  //        ['', '', ''],
-  //        ['', '', '']], delta: {row: 0, col: 0}},
-  //     [{setTurn: {turnIndex : 0}},
-  //       {set: {key: 'board', value:
-  //         [['O', '', ''],
-  //          ['', '', ''],
-  //          ['', '', '']]}},
-  //       {set: {key: 'delta', value: {row: 0, col: 0}}}]);
-  // });
-  //
-  // it("cannot move after the game is over", function() {
-  //   expectIllegalMove(1,
-  //     {board:
-  //       [['X', 'O', ''],
-  //        ['X', 'O', ''],
-  //        ['X', '', '']], delta: {row: 2, col: 0}},
-  //     [{setTurn: {turnIndex : 0}},
-  //       {set: {key: 'board', value:
-  //         [['X', 'O', ''],
-  //          ['X', 'O', ''],
-  //          ['X', 'O', '']]}},
-  //       {set: {key: 'delta', value: {row: 2, col: 1}}}]);
-  // });
-  //
-  // it("placing O in 2x1 is legal", function() {
-  //   expectMoveOk(1,
-  //     {board:
-  //       [['O', 'X', ''],
-  //        ['X', 'O', ''],
-  //        ['X', '', '']], delta: {row: 2, col: 0}},
-  //     [{setTurn: {turnIndex : 0}},
-  //       {set: {key: 'board', value:
-  //         [['O', 'X', ''],
-  //          ['X', 'O', ''],
-  //          ['X', 'O', '']]}},
-  //       {set: {key: 'delta', value: {row: 2, col: 1}}}]);
-  // });
-  //
-  // it("X wins by placing X in 2x0 is legal", function() {
-  //   expectMoveOk(0,
-  //     {board:
-  //       [['X', 'O', ''],
-  //        ['X', 'O', ''],
-  //        ['', '', '']], delta: {row: 1, col: 1}},
-  //     [{endMatch: {endMatchScores: [1, 0]}},
-  //           {set: {key: 'board', value:
-  //             [['X', 'O', ''],
-  //              ['X', 'O', ''],
-  //              ['X', '', '']]}},
-  //           {set: {key: 'delta', value: {row: 2, col: 0}}}]);
-  // });
-  //
-  // it("O wins by placing O in 1x1 is legal", function() {
-  //   expectMoveOk(1,
-  //     {board:
-  //       [['X', 'X', 'O'],
-  //        ['X', '', ''],
-  //        ['O', '', '']], delta: {row: 0, col: 1}},
-  //     [{endMatch: {endMatchScores: [0, 1]}},
-  //           {set: {key: 'board', value:
-  //             [['X', 'X', 'O'],
-  //              ['X', 'O', ''],
-  //              ['O', '', '']]}},
-  //           {set: {key: 'delta', value: {row: 1, col: 1}}}]);
-  // });
+
+  it("skipping one's store is illegal", function() {
+    expectIllegalMove(1,
+      {board:
+        {
+          boardSides :
+          [
+            {//side 0
+                      store: 0,
+                      house: [0,5,5,5,5,4],
+                      sowDir: SowDirType.RtoL
+            },
+            {//side 1
+                      store: 0,
+                      house: [4,4,4,4,4,4],
+                      sowDir: SowDirType.LtoR
+            }
+          ]
+        }, delta: { boardSideId: 0, house: 0, nitems: 4}},
+      [{setTurn: {turnIndex : 0}},
+        {set: {key: 'board', value:
+        {
+          boardSides :
+          [
+            {//side 0
+                      store: 0,
+                      house: [1,5,5,5,5,4],
+                      sowDir: SowDirType.RtoL
+            },
+            {//side 1
+                      store: 0,
+                      house: [4,4,0,5,5,5],
+                      sowDir: SowDirType.LtoR
+            }
+          ]
+        }
+      }},
+      {set: {key: 'delta', value: { boardSideId: 1, house: 2, nitems: 4  }}}]);
+  });
+
+  it("skipping opponent's houses is illegal", function() {
+    expectIllegalMove(1,
+      {board:
+        {
+          boardSides :
+          [
+            {//side 0
+                      store: 0,
+                      house: [0,5,5,5,5,4],
+                      sowDir: SowDirType.RtoL
+            },
+            {//side 1
+                      store: 0,
+                      house: [4,4,4,4,4,4],
+                      sowDir: SowDirType.LtoR
+            }
+          ]
+        }, delta: { boardSideId: 0, house: 0, nitems: 4}},
+      [{setTurn: {turnIndex : 0}},
+        {set: {key: 'board', value:
+        {
+          boardSides :
+          [
+            {//side 0
+                      store: 0,
+                      house: [0,5,5,5,5,4],
+                      sowDir: SowDirType.RtoL
+            },
+            {//side 1
+                      store: 1,
+                      house: [5,4,4,0,5,5],
+                      sowDir: SowDirType.LtoR
+            }
+          ]
+        }
+      }},
+      {set: {key: 'delta', value: { boardSideId: 1, house: 3, nitems: 4   }}}]);
+  });
+
+  it("sowing from opponent's houses is illegal", function() {
+    expectIllegalMove(1,
+      {board:
+        {
+          boardSides :
+          [
+            {//side 0
+                      store: 0,
+                      house: [0,5,5,5,5,4],
+                      sowDir: SowDirType.RtoL
+            },
+            {//side 1
+                      store: 0,
+                      house: [4,4,4,4,4,4],
+                      sowDir: SowDirType.LtoR
+            }
+          ]
+        }, delta: { boardSideId: 0, house: 0, nitems: 4}},
+      [{setTurn: {turnIndex : 0}},
+        {set: {key: 'board', value:
+        {
+          boardSides :
+          [
+            {//side 0
+                      store: 0,
+                      house: [0,5,5,0,6,5],
+                      sowDir: SowDirType.RtoL
+            },
+            {//side 1
+                      store: 0,
+                      house: [5,5,5,4,4,4],
+                      sowDir: SowDirType.LtoR
+            }
+          ]
+        }
+      }},
+      {set: {key: 'delta', value: { boardSideId: 1, house: 3, nitems: 4   }}}]);
+  });
+
+  it("continuation of turn if last sown is in store is legal", function() {
+    expectIllegalMove(1,
+      {board:
+        {
+          boardSides :
+          [
+            {//side 0
+                      store: 0,
+                      house: [0,5,5,5,5,4],
+                      sowDir: SowDirType.RtoL
+            },
+            {//side 1
+                      store: 0,
+                      house: [4,4,4,4,4,4],
+                      sowDir: SowDirType.LtoR
+            }
+          ]
+        }, delta: { boardSideId: 0, house: 0, nitems: 4}},
+      [{setTurn: {turnIndex : 1}},
+        {set: {key: 'board', value:
+        {
+          boardSides :
+          [
+            {//side 0
+                      store: 0,
+                      house: [0,5,5,0,6,5],
+                      sowDir: SowDirType.RtoL
+            },
+            {//side 1
+                      store: 1,
+                      house: [4,4,0,5,5,5],
+                      sowDir: SowDirType.LtoR
+            }
+          ]
+        }
+      }},
+      {set: {key: 'delta', value: { boardSideId: 1, house: 2, nitems: 4  }}}]);
+  });
+
+  it("cannot move after game is over", function() {
+    expectIllegalMove(1,
+      {board:
+        {
+          boardSides :
+          [
+            {//side 0
+                      store: 25,
+                      house: [0,0,0,0,0,0],
+                      sowDir: SowDirType.RtoL
+            },
+            {//side 1
+                      store: 20,
+                      house: [0,0,0,0,2,1],
+                      sowDir: SowDirType.LtoR
+            }
+          ]
+        }, delta: { boardSideId: 0, house: 5, nitems: 1}},
+      [{setTurn: {turnIndex : 1}},
+        {set: {key: 'board', value:
+        {
+          boardSides :
+          [
+            {//side 0
+                      store: 25,
+                      house: [0,0,0,0,0,0],
+                      sowDir: SowDirType.RtoL
+            },
+            {//side 1
+                      store: 20,
+                      house: [0,0,0,0,2,0],
+                      sowDir: SowDirType.LtoR
+            }
+          ]
+        }
+      }},
+      {set: {key: 'delta', value: { boardSideId: 1, house: 5, nitems: 1  }}}]);
+  });
+
+  it("sowing zero seeds is illegal", function() {
+    expectIllegalMove(1,
+      {board:
+        {
+          boardSides :
+          [
+            {//side 0
+                      store: 0,
+                      house: [0,5,5,5,5,4],
+                      sowDir: SowDirType.RtoL
+            },
+            {//side 1
+                      store: 0,
+                      house: [4,4,4,4,4,4],
+                      sowDir: SowDirType.LtoR
+            }
+          ]
+        }, delta: { boardSideId: 0, house: 0, nitems: 4}},
+      [{setTurn: {turnIndex : 1}},
+        {set: {key: 'board', value:
+        {
+          boardSides :
+          [
+            {//side 0
+                      store: 0,
+                      house: [0,5,5,5,5,4],
+                      sowDir: SowDirType.RtoL
+            },
+            {//side 1
+                      store: 0,
+                      house: [4,4,4,4,4,4],
+                      sowDir: SowDirType.LtoR
+            }
+          ]
+        }
+      }},
+      {set: {key: 'delta', value: { boardSideId: 1, house: 2, nitems: 0  }}}]);
+  });
+
+  it("when the last sown seed is an own-empty house, then capture opposite side house seeds plus own last into store, is legal", function() {
+    expectMoveOk(1,
+      {board: {
+        boardSides :
+        [
+          {//side 0
+                    store: 7,
+                    house: [2,2,5,0,5,4],
+                    sowDir: SowDirType.RtoL
+          },
+          {//side 1
+                    store: 6,
+                    house: [0,0,0,5,4,8],
+                    sowDir: SowDirType.LtoR
+          }
+        ]
+      }, delta: { boardSideId: 0, house: 3, nitems: 2}},
+      [{setTurn: {turnIndex : 0}},
+        {set: {key: 'board', value:
+        {
+          boardSides :
+          [
+            {//side 0
+                      store: 7,
+                      house: [3,3,6,1,6,0],
+                      sowDir: SowDirType.RtoL
+            },
+            {//side 1
+                      store: 13,
+                      house: [0,0,0,5,4,0],
+                      sowDir: SowDirType.LtoR
+            }
+          ]
+        }
+        }},
+        {set: {key: 'delta', value: { boardSideId: 1, house: 5, nitems: 8}}}]);
+  });
+
+  it("Side 0 wins by capturing more than 24 seeds and cleaning up his houses, is legal", function() {
+    expectMoveOk(0,
+      {board: {
+        boardSides :
+        [
+          {//side 0
+                    store: 24,
+                    house: [0,0,0,0,0,1],
+                    sowDir: SowDirType.RtoL
+          },
+          {//side 1
+                    store: 22,
+                    house: [0,0,0,0,0,1],
+                    sowDir: SowDirType.LtoR
+          }
+        ]
+      }, delta: { boardSideId: 1, house: 4, nitems: 1}},
+      [{endMatch: {endMatchScores: [1, 0]}},
+        {set: {key: 'board', value:
+        {
+          boardSides :
+          [
+            {//side 0
+                      store: 25,
+                      house: [0,0,0,0,0,0],
+                      sowDir: SowDirType.RtoL
+            },
+            {//side 1
+                      store: 22,
+                      house: [0,0,0,0,0,1],
+                      sowDir: SowDirType.LtoR
+            }
+          ]
+        }
+        }},
+        {set: {key: 'delta', value: { boardSideId: 0, house: 5, nitems: 1}}}]);
+  });
+
+
+    it("Side 1 wins by capturing more than 24 seeds and cleaning up his houses, is legal", function() {
+      expectMoveOk(1,
+        {board: {
+          boardSides :
+          [
+            {//side 0
+                      store: 23,
+                      house: [0,0,1,0,0,0],
+                      sowDir: SowDirType.RtoL
+            },
+            {//side 1
+                      store: 23,
+                      house: [0,0,1,0,0,0],
+                      sowDir: SowDirType.LtoR
+            }
+          ]
+        }, delta: { boardSideId: 0, house: 1, nitems: 1}},
+        [{endMatch: {endMatchScores: [0, 1]}},
+          {set: {key: 'board', value:
+          {
+            boardSides :
+            [
+              {//side 0
+                        store: 23,
+                        house: [0,0,0,0,0,0],
+                        sowDir: SowDirType.RtoL
+              },
+              {//side 1
+                        store: 25,
+                        house: [0,0,0,0,0,0],
+                        sowDir: SowDirType.LtoR
+              }
+            ]
+          }
+          }},
+          {set: {key: 'delta', value: { boardSideId: 1, house: 2, nitems: 1}}}]);
+    });
+
+    it("game ties when each side has 24 seeds, is legal", function() {
+      expectMoveOk(0,
+        {board: {
+          boardSides :
+          [
+            {//side 0
+                      store: 23,
+                      house: [0,0,0,0,0,1],
+                      sowDir: SowDirType.RtoL
+            },
+            {//side 1
+                      store: 18,
+                      house: [0,1,2,3,0,0],
+                      sowDir: SowDirType.LtoR
+            }
+          ]
+        }, delta: { boardSideId: 1, house: 0, nitems: 1}},
+        [{endMatch: {endMatchScores: [0, 0]}},
+          {set: {key: 'board', value:
+          {
+            boardSides :
+            [
+              {//side 0
+                        store: 24,
+                        house: [0,0,0,0,0,0],
+                        sowDir: SowDirType.RtoL
+              },
+              {//side 1
+                        store: 18,
+                        house: [0,1,2,3,0,0],
+                        sowDir: SowDirType.LtoR
+              }
+            ]
+          }
+          }},
+          {set: {key: 'delta', value: { boardSideId: 0, house: 5, nitems: 1}}}]);
+    });
+
   //
   // it("the game ties when there are no more empty cells", function() {
   //   expectMoveOk(0,
