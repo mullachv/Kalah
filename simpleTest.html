@@ -120,17 +120,17 @@
               boardSides :
               [
                 {//side 0
-                          store: 24,
-                          house: [0,0,1,0,0,0],
+                          store: 20,
+                          house: [1,1,1,0,0,0],
                           sowDir: SowDirType.RtoL
                 },
                 {//side 1
-                          store: 20,
-                          house: [1,2,0,0,0,0],
+                          store: 23,
+                          house: [0,0,2,0,0,0],
                           sowDir: SowDirType.LtoR
                 }
               ]
-            }, 1, {maxDepth: 2});
+            }, 0, {maxDepth: 2});
 
           console.log(JSON.stringify(comp_move));
 
