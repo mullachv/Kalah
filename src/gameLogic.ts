@@ -170,18 +170,19 @@ module gameLogic {
         throw new Error("Sowing zero seeds?");
       }
       //save a few vars
+      var wkdelta: BoardDelta = angular.copy(bd);
       var boardAfterMove = angular.copy(board);
       var svTurnIndexBeforeMove :number = turnIndexBeforeMove;
-      var svNItems : number = bd.nitems;
+      var svNItems : number = wkdelta.nitems;
       var svSowDir : SowDirType = board.boardSides[turnIndexBeforeMove].sowDir;
 
 
       //zero out the house from which seeds will be taken to be sown
-      boardAfterMove.boardSides[turnIndexBeforeMove].house[bd.house] = 0;
+      boardAfterMove.boardSides[turnIndexBeforeMove].house[wkdelta.house] = 0;
       var lastVisitedLocn : LocationSown = {sowDir: undefined,
                       houseNum: undefined, store: false};
-      var startHouse : number = bd.house + 1;
-      while (bd.nitems > 0) {
+      var startHouse : number = wkdelta.house + 1;
+      while (wkdelta.nitems > 0) {
           if (boardAfterMove.boardSides[turnIndexBeforeMove].sowDir ===
                 SowDirType.RtoL) {//side 0 RtoL
               lastVisitedLocn.sowDir = SowDirType.RtoL;
@@ -190,18 +191,18 @@ module gameLogic {
           }
           for (var i : number = startHouse; i < NUM_HOUSES; i++) {
             boardAfterMove.boardSides[turnIndexBeforeMove].house[i]++;
-            bd.nitems--;
+            wkdelta.nitems--;
             lastVisitedLocn.houseNum = i;
             lastVisitedLocn.store = false;
-            if (bd.nitems === 0) {
+            if (wkdelta.nitems === 0) {
               break;
             }
           }
-          if ( (bd.nitems > 0) && (svTurnIndexBeforeMove === turnIndexBeforeMove) ){// add to store
+          if ( (wkdelta.nitems > 0) && (svTurnIndexBeforeMove === turnIndexBeforeMove) ){// add to store
             boardAfterMove.boardSides[turnIndexBeforeMove].store++;
             lastVisitedLocn.houseNum = NUM_HOUSES;//invalid house num
             lastVisitedLocn.store = true;
-            bd.nitems--;
+            wkdelta.nitems--;
           }
           turnIndexBeforeMove = 1 - turnIndexBeforeMove;//sow on the other side now
           startHouse = 0;
@@ -245,7 +246,7 @@ module gameLogic {
         }
       }
 
-      var delta: BoardDelta = bd;
+      var delta: BoardDelta = angular.copy(bd);
       return [firstOperation,
               {set: {key: 'board', value: boardAfterMove}},
               {set: {key: 'delta', value: delta}}];
@@ -268,10 +269,15 @@ module gameLogic {
       //  {set: {key: 'board', value: [['X', '', ''], ['', '', ''], ['', '', '']]}},
       //  {set: {key: 'delta', value: {row: 0, col: 0}}}]
       var deltaValue: BoardDelta = move[2].set.value;
+      var passDeltaValue:BoardDelta = angular.copy(deltaValue);
+      //console.log(JSON.stringify(move[2].set.value));
       var board = stateBeforeMove.board;
-      var expectedMove = createMove(board, deltaValue, turnIndexBeforeMove);
-      //console.log( move);
-      //console.log(expectedMove);
+      var expectedMove = createMove(board, passDeltaValue, turnIndexBeforeMove);
+
+      // console.log(JSON.stringify( move));
+      // console.log(JSON.stringify(expectedMove));
+      // console.log(JSON.stringify(move[1].set.value));
+      //console.log(JSON.stringify(move[2].set.value));
 
       if (!angular.equals(move, expectedMove)) {
         return false;

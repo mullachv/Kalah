@@ -27,9 +27,31 @@ var aiService;
         return 0;
     }
     function getNextStates(move, playerIndex) {
-        return gameLogic.getPossibleMoves(move[1].set.value, playerIndex);
+        return aiService.getPossibleMoves(move[1].set.value, playerIndex);
     }
     function getDebugStateToString(move) {
         return "\n" + move[1].set.value.join("\n") + "\n";
     }
+    /**
+     * Returns all the possible moves for the given board and turnIndexBeforeMove.
+     * Returns an empty array if the game is over.
+     */
+    function getPossibleMoves(board, turnIndexBeforeMove) {
+        var possibleMoves = [];
+        for (var j = 0; j < NUM_HOUSES; j++) {
+            try {
+                if (board.boardSides[turnIndexBeforeMove].house[j] !== 0) {
+                    var bd = { boardSideId: turnIndexBeforeMove,
+                        house: j,
+                        nitems: board.boardSides[turnIndexBeforeMove].house[j]
+                    };
+                    possibleMoves.push(gameLogic.createMove(board, bd, turnIndexBeforeMove));
+                }
+            }
+            catch (e) {
+            }
+        }
+        return possibleMoves;
+    }
+    aiService.getPossibleMoves = getPossibleMoves;
 })(aiService || (aiService = {}));

@@ -31,10 +31,34 @@ module aiService {
   }
 
   function getNextStates(move: IMove, playerIndex: number): IMove[] {
-    return gameLogic.getPossibleMoves(move[1].set.value, playerIndex);
+    return aiService.getPossibleMoves(move[1].set.value, playerIndex);
   }
 
   function getDebugStateToString(move: IMove): string {
     return "\n" + move[1].set.value.join("\n") + "\n";
   }
+
+  /**
+   * Returns all the possible moves for the given board and turnIndexBeforeMove.
+   * Returns an empty array if the game is over.
+   */
+  export function getPossibleMoves(board: Board, turnIndexBeforeMove: number): IMove[] {
+    var possibleMoves: IMove[] = [];
+    for (var j = 0; j < NUM_HOUSES; j++) {
+      try {
+        if (board.boardSides[turnIndexBeforeMove].house[j] !== 0) {
+          var bd : BoardDelta = {boardSideId: turnIndexBeforeMove,
+                                house: j,
+                                nitems: board.boardSides[turnIndexBeforeMove].house[j]
+                                };
+          possibleMoves.push(gameLogic.createMove(board, bd, turnIndexBeforeMove));
+        }
+      } catch (e) {
+        // The cell in that position was full.
+      }
+    }
+    return possibleMoves;
+  }
+
+
 }

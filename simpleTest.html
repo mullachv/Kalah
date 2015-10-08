@@ -3,30 +3,74 @@
 <head>
   <script crossorigin="anonymous" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.js"></script>
   <script src="ts_output_readonly_do_NOT_change_manually/src/gameLogic.js"></script>
+  <script src="ts_output_readonly_do_NOT_change_manually/src/aiService.js"></script>
+  <script crossorigin="anonymous" src="http://yoav-zibin.github.io/emulator/dist/turnBasedServices.3.js"></script>
   <script>
-    angular.module('myApp', []);
-    //gameLogic.TestFunc();
-    var res = gameLogic.isMoveOk({
-      turnIndexBeforeMove: 0,
-      turnIndexAfterMove: null,
-      stateBeforeMove:
-      {board: {
+    angular.module("myApp", []);
+
+    // var comp_move = aiService.createComputerMove(
+    //   {
+    //     boardSides :
+    //     [
+    //       {//side 0
+    //                 store: 24,
+    //                 house: [0,0,1,0,0,0],
+    //                 sowDir: SowDirType.RtoL
+    //       },
+    //       {//side 1
+    //                 store: 20,
+    //                 house: [1,2,0,0,0,0],
+    //                 sowDir: SowDirType.LtoR
+    //       }
+    //     ]
+    //   }, 1, {maxDepth: 2});
+    //   //console.log(comp_move);
+      // var reg_move = gameLogic.createMove(
+      //   {
+      //     boardSides :
+      //     [
+      //       {//side 0
+      //                 store: 24,
+      //                 house: [0,0,1,0,0,0],
+      //                 sowDir: SowDirType.RtoL
+      //       },
+      //       {//side 1
+      //                 store: 20,
+      //                 house: [1,2,0,0,0,0],
+      //                 sowDir: SowDirType.LtoR
+      //       }
+      //     ]
+      //   }, { boardSideId: 1, house: 1, nitems: 2}, 1);
+      //   console.log("regm " + JSON.stringify(reg_move));
+
+
+      var expectedMove =
+      [{endMatch: {endMatchScores: [0, 0]}},
+      {set: {key: 'board', value:
+      {
         boardSides :
         [
           {//side 0
-                    store: 23,
-                    house: [0,0,0,0,0,1],
+                    store: 24,
+                    house: [0,0,0,0,0,0],
                     sowDir: SowDirType.RtoL
           },
           {//side 1
-                    store: 18,
-                    house: [0,1,2,3,0,0],
+                    store: 22,
+                    house: [1,0,1,0,0,0],
                     sowDir: SowDirType.LtoR
           }
         ]
-      }, delta: { boardSideId: 1, house: 0, nitems: 1}},
-      stateAfterMove: null,
-      move: [{endMatch: {endMatchScores: [0, 0]}},
+      }
+      }},
+      {set: {key: 'delta', value: { boardSideId: 1, house: 1, nitems: 2}}}];
+
+        //console.log(expectedMove);
+
+        // console.log("move " + JSON.stringify(comp_move));
+        // console.log("expm " + JSON.stringify(expectedMove));
+
+        var aMove =         [{endMatch: {endMatchScores: [0, 0]}},
                 {set: {key: 'board', value:
                 {
                   boardSides :
@@ -37,37 +81,105 @@
                               sowDir: SowDirType.RtoL
                     },
                     {//side 1
-                              store: 18,
-                              house: [0,1,2,3,0,0],
+                              store: 22,
+                              house: [1,0,1,0,0,0],
                               sowDir: SowDirType.LtoR
                     }
                   ]
                 }
                 }},
-                {set: {key: 'delta', value: { boardSideId: 0, house: 5, nitems: 1}}}],
-      numberOfPlayers: null});
+                {set: {key: 'delta', value: { boardSideId: 1, house: 1, nitems: 2}}}];
+        //console.log("before move " + JSON.stringify(aMove));
 
-      console.log("Res: " + res);
+        var rVal = gameLogic.isMoveOk(
+          {turnIndexBeforeMove: 1,
+          turnIndexAfterMove: null,
+          stateBeforeMove: { board: {   boardSides :
+                  [
+                    {//side 0
+                              store: 24,
+                              house: [0,0,1,0,0,0],
+                              sowDir: SowDirType.RtoL
+                    },
+                    {//side 1
+                              store: 20,
+                              house: [1,2,0,0,0,0],
+                              sowDir: SowDirType.LtoR
+                    }
+                  ]
+                } , delta: { boardSideId: 0, house: 1, nitems: 1}},
+          stateAfterMove: null,
+          move: aMove,
+          numberOfPlayers: null});
+          //console.log("after move " + JSON.stringify(aMove));
 
-    // gameLogic.secondTest(0, {},
-    //   [{setTurn: {turnIndex : 1}},
-    //     {set: {key: 'board', value: {
-    //       boardSides :
-    //       [
-    //         {//side 0
-    //                   store: 0,
-    //                   house: [0,5,5,5,5,4],
-    //                   sowDir: SowDirType.RtoL
-    //         },
-    //         {//side 1
-    //                   store: 0,
-    //                   house: [4,4,4,4,4,4],
-    //                   sowDir: SowDirType.LtoR
-    //         }
-    //       ]
-    //     }
-    //     }},
-    //     {set: {key: 'delta', value: { boardSideId: 0, house: 0, nitems: 4 }}}]);
+          console.log("Return: " + rVal);
+
+          var comp_move = aiService.createComputerMove(
+            {
+              boardSides :
+              [
+                {//side 0
+                          store: 24,
+                          house: [0,0,1,0,0,0],
+                          sowDir: SowDirType.RtoL
+                },
+                {//side 1
+                          store: 20,
+                          house: [1,2,0,0,0,0],
+                          sowDir: SowDirType.LtoR
+                }
+              ]
+            }, 1, {maxDepth: 2});
+
+          console.log(JSON.stringify(comp_move));
+
+        //var trm = reg_move.
+        //console.log(angular.equals(comp_move, ))
+    //gameLogic.TestFunc();
+    // var res = gameLogic.isMoveOk({
+    //   turnIndexBeforeMove: 0,
+    //   turnIndexAfterMove: null,
+    //   stateBeforeMove:
+    //   {board: {
+    //     boardSides :
+    //     [
+    //       {//side 0
+    //                 store: 23,
+    //                 house: [0,0,0,0,0,1],
+    //                 sowDir: SowDirType.RtoL
+    //       },
+    //       {//side 1
+    //                 store: 18,
+    //                 house: [0,1,2,3,0,0],
+    //                 sowDir: SowDirType.LtoR
+    //       }
+    //     ]
+    //   }, delta: { boardSideId: 1, house: 0, nitems: 1}},
+    //   stateAfterMove: null,
+    //   move: [{endMatch: {endMatchScores: [0, 0]}},
+    //             {set: {key: 'board', value:
+    //             {
+    //               boardSides :
+    //               [
+    //                 {//side 0
+    //                           store: 24,
+    //                           house: [0,0,0,0,0,0],
+    //                           sowDir: SowDirType.RtoL
+    //                 },
+    //                 {//side 1
+    //                           store: 18,
+    //                           house: [0,1,2,3,0,0],
+    //                           sowDir: SowDirType.LtoR
+    //                 }
+    //               ]
+    //             }
+    //             }},
+    //             {set: {key: 'delta', value: { boardSideId: 0, house: 5, nitems: 1}}}],
+    //   numberOfPlayers: null});
+    //
+    //   console.log("Res: " + res);
+    //
 
   </script>
 </head>
