@@ -16,7 +16,8 @@ module aiService {
         [null, {set: {key: 'board', value: board}}],
         playerIndex, getNextStates, getStateScoreForIndex0,
         // If you want to see debugging output in the console, then surf to game.html?debug
-        window.location.search === '?debug' ? getDebugStateToString : null,
+        // window.location.search === '?debug' ? getDebugStateToString : null,
+        null,
         alphaBetaLimits);
   }
 
@@ -34,9 +35,9 @@ module aiService {
     return aiService.getPossibleMoves(move[1].set.value, playerIndex);
   }
 
-  function getDebugStateToString(move: IMove): string {
-    return "\n" + move[1].set.value.join("\n") + "\n";
-  }
+  // function getDebugStateToString(move: IMove): string {
+  //   return "\n" + move[1].set.value.join("\n") + "\n";
+  // }
 
   /**
    * Returns all the possible moves for the given board and turnIndexBeforeMove.
