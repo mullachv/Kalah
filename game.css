@@ -1,8 +1,47 @@
-.r {
-  border-right: 4pt solid black;
+.rg {
+  border-right: 4pt solid darkorange;
 }
-.b {
-  border-bottom: 4pt solid black;
+.bg {
+  border-bottom: 4pt solid darkorange;
+}
+
+.lg {
+  border-left: 4pt solid darkorange;
+}
+
+.tg {
+  border-top: 4pt solid darkorange;
+}
+
+
+.rb {
+  border-right: 4pt solid cornflowerblue;
+}
+.bb {
+  border-bottom: 4pt solid cornflowerblue;
+}
+
+.lb {
+  border-left: 4pt solid cornflowerblue;
+}
+
+.tb {
+  border-top: 4pt solid cornflowerblue;
+}
+
+.mancalas {
+  cx: 50%;
+  cy: 50%;
+  rx: 30%;
+  ry: 40%;
+  fill: lightslategray;
+  stroke: YellowGreen;
+  stroke-width: 5%;
+}
+
+.inhouse {
+  rx: 30%;
+  ry: 10%;
 }
 
 .slowlyAppear {

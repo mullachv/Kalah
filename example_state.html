@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+  <meta charset="utf-8">
+  <title>Kalah</title>
+  <meta name="description" content="Kalah game">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" type="text/css" href="http://yoav-zibin.github.io/emulator/main.css">
+  <link rel="stylesheet" type="text/css" href="game.css">
+
+  <!--
+    Loading code to resize gameArea according to some chosen width-to-height ratio.
+    In TicTacToe, the ratio is 1 (i.e., width/height = 1)
+  -->
+  <script crossorigin="anonymous" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.js"></script>
+  <script crossorigin="anonymous" src="http://yoav-zibin.github.io/emulator/dist/turnBasedServices.3.js"></script>
+  <script>
+    angular.module('myApp', []).run(function () { resizeGameAreaService.setWidthToHeight(1); });
+  </script>
+</head>
+<body>
+<div id="gameArea">
+
+  <div style="position:absolute; top:15%; left:0; width:100%; height:60%;">
+    <!-- player 0 houses and store -->
+
+    <!-- player 0 store -->
+    <div style="position:absolute; top:0; left:0%; width:12.5%; height:100%;"
+        class="rg bg lg tg">
+    </div>
+
+    <!-- player 0 houses, 6 of them -->
+    <div style="position:absolute; top:0; left:13.25%; width:12.5%; height:45%;"
+        class="rg bg tg">
+    </div>
+    <div style="position:absolute; top:0; left:25%; width:12.5%; height:45%;"
+        class="rg bg tg">
+    </div>
+    <div style="position:absolute; top:0; left:37.5%; width:12.5%; height:45%;"
+        class="rg bg tg">
+    </div>
+
+    <div style="position:absolute; top:0; left:50%; width:12.5%; height:45%;"
+        class="rg bg tg">
+        <!-- first row in this house, top row -->
+        <div style="position:absolute; top:0; left:0; width:100%; height:50%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+          </div>
+        </div>
+        <!-- second row, bottom row -->
+        <div style="position:absolute; top:50%; left:0; width:100%; height:50%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas inhouse"/>
+            </svg>
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+          </div>
+        </div>
+    </div>
+
+    <div style="position:absolute; top:0; left:62.5%; width:12.5%; height:45%;"
+        class="rg bg tg">
+    </div>
+    <div style="position:absolute; top:0; left:75%; width:12.5%; height:45%;"
+        class="rg bg tg">
+    </div>
+
+    <!-- player 1 house and store -->
+    <!-- first house -->
+    <div style="position:absolute; top:55%; left:13.25%; width:12.5%; height:45%;"
+        class="rb bb tb">
+        <!-- first row in house 0-->
+        <div style="position:absolute; top:0; left:0; width:100%; height:50%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+          </div>
+        </div>
+        <!-- second row -->
+        <div style="position:absolute; top:50%; left:0; width:100%; height:50%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas inhouse"/>
+            </svg>
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+          </div>
+        </div>
+    </div>
+
+    <!-- second house -->
+    <div style="position:absolute; top:55%; left:25%; width:12.5%; height:45%;"
+        class="rb bb tb">
+        <div style="position:absolute; top:0; left:0; width:100%; height:50%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+          </div>
+        </div>
+        <div style="position:absolute; top:50%; left:0; width:100%; height:50%;">
+          <div style="position:absolute; left:5%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas inhouse"/>
+            </svg>
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas inhouse"/>
+            </svg>
+          </div>
+        </div>
+    </div>
+
+    <div style="position:absolute; top:55%; left:37.5%; width:12.5%; height:45%;"
+        class="rb bb tb">
+    </div>
+    <div style="position:absolute; top:55%; left:50%; width:12.5%; height:45%;"
+        class="rb bb tb">
+    </div>
+    <div style="position:absolute; top:55%; left:62.5%; width:12.5%; height:45%;"
+        class="rb bb tb">
+    </div>
+    <div style="position:absolute; top:55%; left:75%; width:12.5%; height:45%;"
+        class="rb bb tb">
+    </div>
+    <div style="position:absolute; top:0; left:87.5%; width:12.5%; height:100%;"
+        class="rb bb lb tb">
+        <!-- twentyfourth row of store side 1 -->
+        <div style="position:absolute; top:0; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+          </div>
+        </div>
+
+        <!-- twentythird row of store side 1 -->
+        <div style="position:absolute; top:4%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+          </div>
+        </div>
+
+        <!-- twentysecond row of store side 1 -->
+        <div style="position:absolute; top:8%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+          </div>
+        </div>
+
+        <!-- twentyfirst row of store side 1 -->
+        <div style="position:absolute; top:12%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+          </div>
+        </div>
+
+          <!-- twentieth row of store side 1 -->
+        <div style="position:absolute; top:16%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+          </div>
+        </div>
+
+        <!-- nineteenth row of store side 1 -->
+        <div style="position:absolute; top:20%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+          </div>
+        </div>
+
+        <!-- eighteenth row of store side 1 -->
+        <div style="position:absolute; top:24%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+          </div>
+        </div>
+
+        <!-- seventeenth row of store side 1 -->
+        <div style="position:absolute; top:28%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+          </div>
+        </div>
+
+        <!-- sixteenth row of store side 1 -->
+        <div style="position:absolute; top:32%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+          </div>
+        </div>
+
+        <!-- fourteenth row of store side 1 -->
+        <div style="position:absolute; top:36%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+          </div>
+        </div>
+
+        <!-- thirteenth row of store side 1 -->
+        <div style="position:absolute; top:40%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+          </div>
+        </div>
+
+        <!-- twelveth row of store side 1 -->
+        <div style="position:absolute; top:44%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+          </div>
+        </div>
+
+        <!-- eleventh row of store side 1 -->
+        <div style="position:absolute; top:48%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+          </div>
+        </div>
+
+        <!-- tenth row of store side 1 -->
+        <div style="position:absolute; top:52%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- ninth row of store side 1 -->
+        <div style="position:absolute; top:56%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- eighth row of store side 1 -->
+        <div style="position:absolute; top:60%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- seventh row of store side 1 -->
+        <div style="position:absolute; top:64%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- sixth row of store side 1 -->
+        <div style="position:absolute; top:68%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- fifth row of store side 1 -->
+        <div style="position:absolute; top:72%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- fourth row of store side 1 -->
+        <div style="position:absolute; top:76%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- third row of store side 1 -->
+        <div style="position:absolute; top:80%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- second row of store side 1 -->
+        <div style="position:absolute; top:84%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- first row of store side 1 -->
+        <div style="position:absolute; top:88%; left:0; width:100%; height:4%;">
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+            <svg width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Store seed count -->
+        <div style="position:absolute; top:94%; left:0; width:100%; height:4%;">
+          <text style="font-family: Calibri; font-size: 20pt;
+          font-color: cornflowerblue; center; width=100%">20</text>
+        </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
