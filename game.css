@@ -13,6 +13,15 @@
   border-top: 4pt solid darkorange;
 }
 
+/*
+.house {
+  background-color: bisque;
+}
+*/
+
+.store {
+  background-color: burlywood;
+}
 
 .rb {
   border-right: 4pt solid cornflowerblue;
