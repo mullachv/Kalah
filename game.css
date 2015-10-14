@@ -11,16 +11,61 @@
 
 .tg {
   border-top: 4pt solid darkorange;
+  border: 4pt solid darkorange;
 }
 
-/*
 .house {
   background-color: bisque;
 }
-*/
+
+.vgap {
+  background-color: burlywood;
+  background: repeating-linear-gradient(
+    2deg,
+    DarkGoldenRod,
+    DarkGoldenRod 10px,
+    burlywood 10px,
+    burlywood 40px
+  );
+}
 
 .store {
   background-color: burlywood;
+  /*
+  background: repeating-radial-gradient(
+  circle,
+  DarkGoldenRod 5px,
+  DarkGoldenRod 20px,
+  burlywood 5px,
+  burlywood 100px
+);
+*/
+background: repeating-linear-gradient(
+  2deg,
+  DarkGoldenRod,
+  DarkGoldenRod 10px,
+  burlywood 10px,
+  burlywood 120px
+);
+
+/*
+background: repeating-linear-gradient(
+  45deg,
+  #606dbc,
+  #606dbc 10px,
+  #465298 10px,
+  #465298 20px
+);
+*/
+/* Note the RADIAL
+background: repeating-radial-gradient(
+  circle,
+  purple,
+  purple 10px,
+  #4b026f 10px,
+  #4b026f 20px
+);
+*/
 }
 
 .rb {
@@ -36,6 +81,7 @@
 
 .tb {
   border-top: 4pt solid cornflowerblue;
+  border: 4pt solid cornflowerblue;
 }
 
 .mancalas {
