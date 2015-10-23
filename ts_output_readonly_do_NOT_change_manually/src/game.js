@@ -69,8 +69,18 @@ var game;
         if (!canMakeMove) {
             return;
         }
+        var hs = 0;
+        if (row == 0) {
+            hs = NUM_HOUSES - col;
+        }
+        else {
+            hs = col;
+        }
+        var nSeeds = state.board.boardSides[turnIndex].house[hs];
+        //row 0 ==> boardSideId = 0; row = 1 (near player), boardSideId = 1
+        var bd = { boardSideId: row, house: hs, nitems: nSeeds };
         try {
-            var move = gameLogic.createMove(state.board, row, col, turnIndex);
+            var move = gameLogic.createMove(state.board, bd, turnIndex);
             canMakeMove = false; // to prevent making another move
             gameService.makeMove(move);
         }

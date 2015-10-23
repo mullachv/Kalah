@@ -2,7 +2,7 @@ module game {
   var animationEnded = false;
   var canMakeMove = false;
   var isComputerTurn = false;
-  var state: IState = null;
+  var state:IState = null;
   var turnIndex: number = null;
   export var isHelpModalShown: boolean = false;
 
@@ -75,8 +75,18 @@ module game {
     if (!canMakeMove) {
       return;
     }
+    let hs : number = 0;
+    if (row == 0) {
+      hs = NUM_HOUSES - col;
+    } else {
+      hs = col;
+    }
+
+    let nSeeds = state.board.boardSides[turnIndex].house[hs];
+    //row 0 ==> boardSideId = 0; row = 1 (near player), boardSideId = 1
+    let bd:BoardDelta = {boardSideId: row, house: hs, nitems: nSeeds};
     try {
-      var move = gameLogic.createMove(state.board, row, col, turnIndex);
+      var move = gameLogic.createMove(state.board, bd, turnIndex);
       canMakeMove = false; // to prevent making another move
       gameService.makeMove(move);
     } catch (e) {
