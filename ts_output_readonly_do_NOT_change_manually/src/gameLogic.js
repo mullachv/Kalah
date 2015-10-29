@@ -65,27 +65,6 @@ var gameLogic;
         return null;
     }
     /**
-     * Returns all the possible moves for the given board and turnIndexBeforeMove.
-     * Returns an empty array if the game is over.
-     */
-    // export function getPossibleMoves(board: Board, turnIndexBeforeMove: number): IMove[] {
-    //   var possibleMoves: IMove[] = [];
-    //   for (var j = 0; j < NUM_HOUSES; j++) {
-    //     try {
-    //       if (board.boardSides[turnIndexBeforeMove].house[j] !== 0) {
-    //         var bd : BoardDelta = {boardSideId: turnIndexBeforeMove,
-    //                               house: j,
-    //                               nitems: board.boardSides[turnIndexBeforeMove].house[j]
-    //                               };
-    //         possibleMoves.push(createMove(board, bd, turnIndexBeforeMove));
-    //       }
-    //     } catch (e) {
-    //       // The cell in that position was full.
-    //     }
-    //   }
-    //   return possibleMoves;
-    // }
-    /**
      * Test changes for simpleTst.html
     */
     // export function TestFunc() {
@@ -168,21 +147,26 @@ var gameLogic;
         } //while
         //if last location was one's own house and was empty,
         //then capture all of the seeds from the opponent's house and one's own house
-        // into one's store
-        if (!lastVisitedLocn.store && (lastVisitedLocn.sowDir === svSowDir) &&
-            (boardAfterMove.boardSides[svTurnIndexBeforeMove].house[lastVisitedLocn.houseNum] === 1)) {
-            //get the opponent's seeds and your own (+1)
-            boardAfterMove.boardSides[svTurnIndexBeforeMove].store +=
+        // into one's store.
+        if (!lastVisitedLocn.store
+            && (lastVisitedLocn.sowDir === svSowDir)
+            && (boardAfterMove.boardSides[svTurnIndexBeforeMove].house[lastVisitedLocn.houseNum] === 1)) {
+            //Do this ONLY if the opponent's house is non-empty - Oct 29, 2015
+            if (boardAfterMove.boardSides[1 - svTurnIndexBeforeMove]
+                .house[NUM_HOUSES - 1 - lastVisitedLocn.houseNum] > 0) {
+                //get the opponent's seeds and your own (+1)
+                boardAfterMove.boardSides[svTurnIndexBeforeMove].store +=
+                    boardAfterMove.boardSides[1 - svTurnIndexBeforeMove]
+                        .house[NUM_HOUSES - 1 - lastVisitedLocn.houseNum]
+                        +
+                            1;
+                //set own to zero
+                boardAfterMove.boardSides[svTurnIndexBeforeMove]
+                    .house[lastVisitedLocn.houseNum] = 0;
+                //set opponent's to zero
                 boardAfterMove.boardSides[1 - svTurnIndexBeforeMove]
-                    .house[NUM_HOUSES - 1 - lastVisitedLocn.houseNum]
-                    +
-                        1;
-            //set own to zero
-            boardAfterMove.boardSides[svTurnIndexBeforeMove]
-                .house[lastVisitedLocn.houseNum] = 0;
-            //set opponent's to zero
-            boardAfterMove.boardSides[1 - svTurnIndexBeforeMove]
-                .house[NUM_HOUSES - 1 - lastVisitedLocn.houseNum] = 0;
+                    .house[NUM_HOUSES - 1 - lastVisitedLocn.houseNum] = 0;
+            }
         }
         var winner = getWinner(boardAfterMove);
         var firstOperation;
@@ -214,9 +198,6 @@ var gameLogic;
         var move = params.move;
         var turnIndexBeforeMove = params.turnIndexBeforeMove;
         var stateBeforeMove = params.stateBeforeMove;
-        // The state and turn after move are not needed in TicTacToe (or in any game where all state is public).
-        //var turnIndexAfterMove = params.turnIndexAfterMove;
-        //var stateAfterMove = params.stateAfterMove;
         // We can assume that turnIndexBeforeMove and stateBeforeMove are legal, and we need
         // to verify that move is legal.
         try {

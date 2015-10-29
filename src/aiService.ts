@@ -26,6 +26,7 @@ module aiService {
       var endMatchScores = move[0].endMatch.endMatchScores;
       return endMatchScores[0] > endMatchScores[1] ? Number.POSITIVE_INFINITY
           : endMatchScores[0] < endMatchScores[1] ? Number.NEGATIVE_INFINITY
+          // : endMatchScores[0] == endMatchScores[1] ? 1
           : 0;
     }
     return 0;

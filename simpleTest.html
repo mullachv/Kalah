@@ -8,23 +8,23 @@
   <script>
     angular.module("myApp", []);
 
-    // var comp_move = aiService.createComputerMove(
-    //   {
-    //     boardSides :
-    //     [
-    //       {//side 0
-    //                 store: 24,
-    //                 house: [0,0,1,0,0,0],
-    //                 sowDir: SowDirType.RtoL
-    //       },
-    //       {//side 1
-    //                 store: 20,
-    //                 house: [1,2,0,0,0,0],
-    //                 sowDir: SowDirType.LtoR
-    //       }
-    //     ]
-    //   }, 1, {maxDepth: 2});
-    //   //console.log(comp_move);
+    var comp_move = aiService.createComputerMove(
+      {
+        boardSides :
+        [
+          {//side 0
+                    store: 24,
+                    house: [0,0,1,0,0,0],
+                    sowDir: SowDirType.RtoL
+          },
+          {//side 1
+                    store: 20,
+                    house: [1,2,0,0,0,0],
+                    sowDir: SowDirType.LtoR
+          }
+        ]
+      }, 1, {maxDepth: 10});
+      console.log(JSON.stringify(comp_move));
       // var reg_move = gameLogic.createMove(
       //   {
       //     boardSides :
@@ -44,95 +44,95 @@
       //   console.log("regm " + JSON.stringify(reg_move));
 
 
-      var expectedMove =
-      [{endMatch: {endMatchScores: [0, 0]}},
-      {set: {key: 'board', value:
-      {
-        boardSides :
-        [
-          {//side 0
-                    store: 24,
-                    house: [0,0,0,0,0,0],
-                    sowDir: SowDirType.RtoL
-          },
-          {//side 1
-                    store: 22,
-                    house: [1,0,1,0,0,0],
-                    sowDir: SowDirType.LtoR
-          }
-        ]
-      }
-      }},
-      {set: {key: 'delta', value: { boardSideId: 1, house: 1, nitems: 2}}}];
-
-        //console.log(expectedMove);
-
-        // console.log("move " + JSON.stringify(comp_move));
-        // console.log("expm " + JSON.stringify(expectedMove));
-
-        var aMove =         [{endMatch: {endMatchScores: [0, 0]}},
-                {set: {key: 'board', value:
-                {
-                  boardSides :
-                  [
-                    {//side 0
-                              store: 24,
-                              house: [0,0,0,0,0,0],
-                              sowDir: SowDirType.RtoL
-                    },
-                    {//side 1
-                              store: 22,
-                              house: [1,0,1,0,0,0],
-                              sowDir: SowDirType.LtoR
-                    }
-                  ]
-                }
-                }},
-                {set: {key: 'delta', value: { boardSideId: 1, house: 1, nitems: 2}}}];
-        //console.log("before move " + JSON.stringify(aMove));
-
-        var rVal = gameLogic.isMoveOk(
-          {turnIndexBeforeMove: 1,
-          turnIndexAfterMove: null,
-          stateBeforeMove: { board: {   boardSides :
-                  [
-                    {//side 0
-                              store: 24,
-                              house: [0,0,1,0,0,0],
-                              sowDir: SowDirType.RtoL
-                    },
-                    {//side 1
-                              store: 20,
-                              house: [1,2,0,0,0,0],
-                              sowDir: SowDirType.LtoR
-                    }
-                  ]
-                } , delta: { boardSideId: 0, house: 1, nitems: 1}},
-          stateAfterMove: null,
-          move: aMove,
-          numberOfPlayers: null});
-          //console.log("after move " + JSON.stringify(aMove));
-
-          console.log("Return: " + rVal);
-
-          var comp_move = aiService.createComputerMove(
-            {
-              boardSides :
-              [
-                {//side 0
-                          store: 20,
-                          house: [1,1,1,0,0,0],
-                          sowDir: SowDirType.RtoL
-                },
-                {//side 1
-                          store: 23,
-                          house: [0,0,2,0,0,0],
-                          sowDir: SowDirType.LtoR
-                }
-              ]
-            }, 0, {maxDepth: 2});
-
-          console.log(JSON.stringify(comp_move));
+      // var expectedMove =
+      // [{endMatch: {endMatchScores: [0, 0]}},
+      // {set: {key: 'board', value:
+      // {
+      //   boardSides :
+      //   [
+      //     {//side 0
+      //               store: 24,
+      //               house: [0,0,0,0,0,0],
+      //               sowDir: SowDirType.RtoL
+      //     },
+      //     {//side 1
+      //               store: 22,
+      //               house: [1,0,1,0,0,0],
+      //               sowDir: SowDirType.LtoR
+      //     }
+      //   ]
+      // }
+      // }},
+      // {set: {key: 'delta', value: { boardSideId: 1, house: 1, nitems: 2}}}];
+      //
+      //   //console.log(expectedMove);
+      //
+      //   // console.log("move " + JSON.stringify(comp_move));
+      //   // console.log("expm " + JSON.stringify(expectedMove));
+      //
+      //   var aMove =         [{endMatch: {endMatchScores: [0, 0]}},
+      //           {set: {key: 'board', value:
+      //           {
+      //             boardSides :
+      //             [
+      //               {//side 0
+      //                         store: 24,
+      //                         house: [0,0,0,0,0,0],
+      //                         sowDir: SowDirType.RtoL
+      //               },
+      //               {//side 1
+      //                         store: 22,
+      //                         house: [1,0,1,0,0,0],
+      //                         sowDir: SowDirType.LtoR
+      //               }
+      //             ]
+      //           }
+      //           }},
+      //           {set: {key: 'delta', value: { boardSideId: 1, house: 1, nitems: 2}}}];
+      //   //console.log("before move " + JSON.stringify(aMove));
+      //
+      //   var rVal = gameLogic.isMoveOk(
+      //     {turnIndexBeforeMove: 1,
+      //     turnIndexAfterMove: null,
+      //     stateBeforeMove: { board: {   boardSides :
+      //             [
+      //               {//side 0
+      //                         store: 24,
+      //                         house: [0,0,1,0,0,0],
+      //                         sowDir: SowDirType.RtoL
+      //               },
+      //               {//side 1
+      //                         store: 20,
+      //                         house: [1,2,0,0,0,0],
+      //                         sowDir: SowDirType.LtoR
+      //               }
+      //             ]
+      //           } , delta: { boardSideId: 0, house: 1, nitems: 1}},
+      //     stateAfterMove: null,
+      //     move: aMove,
+      //     numberOfPlayers: null});
+      //     //console.log("after move " + JSON.stringify(aMove));
+      //
+      //     console.log("Return: " + rVal);
+      //
+      //     var comp_move = aiService.createComputerMove(
+      //       {
+      //         boardSides :
+      //         [
+      //           {//side 0
+      //                     store: 20,
+      //                     house: [1,1,1,0,0,0],
+      //                     sowDir: SowDirType.RtoL
+      //           },
+      //           {//side 1
+      //                     store: 23,
+      //                     house: [0,0,2,0,0,0],
+      //                     sowDir: SowDirType.LtoR
+      //           }
+      //         ]
+      //       }, 0, {maxDepth: 2});
+      //
+      //     console.log(JSON.stringify(comp_move));
 
         //var trm = reg_move.
         //console.log(angular.equals(comp_move, ))

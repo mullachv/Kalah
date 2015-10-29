@@ -6,8 +6,10 @@ var game;
     var state = null;
     var turnIndex = null;
     game.isHelpModalShown = false;
+    var INIT_SEED_COUNT_PER_HOUSE = 4;
+    var MAX_ROWS_IN_A_HOUSE = 8;
     function init() {
-        console.log("Translation of 'RULES_OF_TICTACTOE' is " + translate('RULES_OF_TICTACTOE'));
+        console.log("Translation of 'RULES_OF_KALAH' is " + translate('RULES_OF_KALAH'));
         resizeGameAreaService.setWidthToHeight(1);
         gameService.setGame({
             minNumberOfPlayers: 2,
@@ -61,63 +63,101 @@ var game;
             }
         }
     }
-    function cellClicked(row, col) {
-        log.info(["Clicked on cell:", row, col]);
-        if (window.location.search === '?throwException') {
-            throw new Error("Throwing the error because URL has '?throwException'");
+    function getStoreCount(side) {
+        if (side === 0) {
+            return state.board.boardSides[0].store;
         }
+        if (side === 1) {
+            return state.board.boardSides[1].store;
+        }
+        return 0;
+    }
+    game.getStoreCount = getStoreCount;
+    function isKalahInStore(boardside, storeRowNum, storeColNum) {
+        var impliedCount = storeRowNum * 2 + storeColNum + 1;
+        if (state.board.boardSides[boardside].store >= impliedCount) {
+            return true;
+        }
+        return false;
+    }
+    game.isKalahInStore = isKalahInStore;
+    function getStoreDisplayRowArray() {
+        var rows = [];
+        for (var i = 0; i < MAXSEEDS / 2; i++) {
+            rows[i] = i;
+        }
+        return rows;
+    }
+    game.getStoreDisplayRowArray = getStoreDisplayRowArray;
+    //0 to 5
+    function getHouseArray() {
+        var hs = [];
+        for (var i = 0; i < NUM_HOUSES; i++) {
+            hs[i] = i;
+        }
+        return hs;
+    }
+    game.getHouseArray = getHouseArray;
+    //0 to 7 (display rows in a house)
+    function getHouseRowArray() {
+        var hs = [];
+        for (var i = 0; i < MAX_ROWS_IN_A_HOUSE; i++) {
+            hs[i] = i;
+        }
+        return hs;
+    }
+    game.getHouseRowArray = getHouseRowArray;
+    //boardside: 0|1; house: 0..5, rnum: 0..7, cnum:0|1
+    function IsKalahInHouseCell(side, hnum, rnum, cnum) {
+        //  console.log("IsKalahInHouseCell: ");
+        var boardHouseNum = hnum;
+        if (side === 0) {
+            boardHouseNum = NUM_HOUSES - 1 - hnum;
+        }
+        var nSeeds = state.board.boardSides[side].house[boardHouseNum];
+        var impliedCount = rnum * 2 + cnum + 1;
+        if (nSeeds >= impliedCount) {
+            return true;
+        }
+        return false;
+    }
+    game.IsKalahInHouseCell = IsKalahInHouseCell;
+    function houseClicked(side, hnum) {
         if (!canMakeMove) {
             return;
         }
-        var hs = 0;
-        if (row == 0) {
-            hs = NUM_HOUSES - col;
+        if (turnIndex != side) {
+            return;
         }
-        else {
-            hs = col;
+        if (side === 0) {
+            hnum = NUM_HOUSES - 1 - hnum;
         }
-        var nSeeds = state.board.boardSides[turnIndex].house[hs];
+        var nSeeds = state.board.boardSides[side].house[hnum];
+        if (nSeeds === 0) {
+            return;
+        }
         //row 0 ==> boardSideId = 0; row = 1 (near player), boardSideId = 1
-        var bd = { boardSideId: row, house: hs, nitems: nSeeds };
+        var bd = { boardSideId: side, house: hnum, nitems: nSeeds };
         try {
             var move = gameLogic.createMove(state.board, bd, turnIndex);
             canMakeMove = false; // to prevent making another move
             gameService.makeMove(move);
         }
         catch (e) {
-            log.info(["Cell is already full in position:", row, col]);
+            log.info(["Invalid move:", side, hnum]);
             return;
         }
     }
-    game.cellClicked = cellClicked;
-    function shouldShowImage(row, col) {
-        var cell = state.board[row][col];
-        return cell !== "";
-    }
-    game.shouldShowImage = shouldShowImage;
-    function isPieceX(row, col) {
-        return state.board[row][col] === 'X';
-    }
-    game.isPieceX = isPieceX;
-    function isPieceO(row, col) {
-        return state.board[row][col] === 'O';
-    }
-    game.isPieceO = isPieceO;
-    function shouldSlowlyAppear(row, col) {
-        return !animationEnded &&
-            state.delta &&
-            state.delta.row === row && state.delta.col === col;
-    }
-    game.shouldSlowlyAppear = shouldSlowlyAppear;
+    game.houseClicked = houseClicked;
 })(game || (game = {}));
 angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])
-    .run(['initGameServices', function (initGameServices) {
-        $rootScope['game'] = game;
-        translate.setLanguage('en', {
-            RULES_OF_TICTACTOE: "Rules of TicTacToe",
-            RULES_SLIDE1: "You and your opponent take turns to mark the grid in an empty spot. The first mark is X, then O, then X, then O, etc.",
-            RULES_SLIDE2: "The first to mark a whole row, column or diagonal wins.",
-            CLOSE: "Close"
-        });
-        game.init();
-    }]);
+    .run(function () {
+    $rootScope['game'] = game;
+    translate.setLanguage('en', {
+        RULES_OF_KALAH: "Rules of Kalah",
+        RULES_SLIDE1: "You and your opponent take turns to sow the seeds anti-clockwise.",
+        RULES_SLIDE2: "The one to collect more than 24 seeds in their store wins.",
+        CLOSE: "Close"
+    });
+    game.init();
+});

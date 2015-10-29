@@ -47,7 +47,7 @@ describe("aiService", function () {
                     sowDir: SowDirType.LtoR
                 }
             ]
-        }, 1, { maxDepth: 2 });
+        }, 1, { maxDepth: 10 });
         var expectedMove = [{ endMatch: { endMatchScores: [0, 0] } },
             { set: { key: 'board', value: {
                         boardSides: [
@@ -169,36 +169,4 @@ describe("aiService", function () {
         }, 0, { maxDepth: 3 });
         expect(angular.equals(move[2].set.value, { boardSideId: 0, house: 4, nitems: 1 })).toBe(true);
     });
-    //
-    // it("O finds a cool winning move that will lead to winning in 2 steps", function() {
-    //   var move = aiService.createComputerMove(
-    //       [['X', 'O', 'X'],
-    //        ['X', '', ''],
-    //        ['O', '', '']], 1, {maxDepth: 3});
-    //   expect(angular.equals(move[2].set.value, {row: 2, col: 1})).toBe(true);
-    // });
-    //
-    // it("O finds the wrong move due to small depth", function() {
-    //   var move = aiService.createComputerMove(
-    //       [['X', '', ''],
-    //        ['', '', ''],
-    //        ['', '', '']], 1, {maxDepth: 3});
-    //   expect(angular.equals(move[2].set.value, {row: 0, col: 1})).toBe(true);
-    // });
-    //
-    // it("O finds the correct move when depth is big enough", function() {
-    //   var move = aiService.createComputerMove(
-    //       [['X', '', ''],
-    //        ['', '', ''],
-    //        ['', '', '']], 1, {maxDepth: 6});
-    //   expect(angular.equals(move[2].set.value, {row: 1, col: 1})).toBe(true);
-    // });
-    //
-    // it("X finds a winning move that will lead to winning in 2 steps", function() {
-    //   var move = aiService.createComputerMove(
-    //       [['', '', ''],
-    //        ['O', 'X', ''],
-    //        ['', '', '']], 0, {maxDepth: 5});
-    //   expect(angular.equals(move[2].set.value, {row: 0, col: 0})).toBe(true);
-    // });
 });
