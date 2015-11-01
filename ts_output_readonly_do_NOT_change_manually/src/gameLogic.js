@@ -11,12 +11,12 @@ var gameLogic;
      * houses filled with 4 seeds
      */
     function getInitialBoard() {
-        var side0 = {
+        var side1 = {
             store: 0,
             house: [4, 4, 4, 4, 4, 4],
             sowDir: SowDirType.RtoL
         };
-        var side1 = {
+        var side0 = {
             store: 0,
             house: [4, 4, 4, 4, 4, 4],
             sowDir: SowDirType.LtoR
@@ -176,7 +176,7 @@ var gameLogic;
         }
         else if (winner !== null) {
             // Game over
-            firstOperation = { endMatch: { endMatchScores: winner.sowDir === SowDirType.LtoR ? [0, 1] : [1, 0] } };
+            firstOperation = { endMatch: { endMatchScores: winner.sowDir === SowDirType.LtoR ? [1, 0] : [0, 1] } };
         }
         else {
             //check for move continuation - if you end in your own store

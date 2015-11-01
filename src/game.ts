@@ -3,6 +3,7 @@ module game {
   var canMakeMove = false;
   var isComputerTurn = false;
   var state:IState = null;
+  var stateBefore:IState = null;
   var turnIndex: number = null;
   export var isHelpModalShown: boolean = false;
   let INIT_SEED_COUNT_PER_HOUSE = 4;
@@ -35,6 +36,7 @@ module game {
   }
 
   function sendComputerMove() {
+    //console.log("In Send comp move");
     gameService.makeMove(
         aiService.createComputerMove(state.board, turnIndex,
           // at most 1 second for the AI to choose a move (but might be much quicker)
@@ -44,12 +46,16 @@ module game {
   function updateUI(params: IUpdateUI): void {
     animationEnded = false;
     state = params.stateAfterMove;
+    stateBefore = params.stateBeforeMove;
     if (!state.board) {
       state.board = gameLogic.getInitialBoard();
     }
     canMakeMove = params.turnIndexAfterMove >= 0 && // game is ongoing
       params.yourPlayerIndex === params.turnIndexAfterMove; // it's my turn
     turnIndex = params.turnIndexAfterMove;
+
+    // console.log("IUpdate UI");
+    // console.log("upd ui: " + JSON.stringify(params));
 
     // Is it the computer's turn?
     isComputerTurn = canMakeMove &&
@@ -60,24 +66,18 @@ module game {
       // We calculate the AI move only after the animation finishes,
       // because if we call aiService now
       // then the animation will be paused until the javascript finishes.
-      if (!state.delta) {
+    //  if (!state.delta) {
         // This is the first move in the match, so
         // there is not going to be an animation, so
         // call sendComputerMove() now (can happen in ?onlyAIs mode)
         sendComputerMove();
-      }
+    //  }
     }
   }
 
 
   export function getStoreCount(side: number): number {
-    if (side === 0) {
-      return state.board.boardSides[0].store;
-    }
-    if (side === 1){
-      return state.board.boardSides[1].store;
-    }
-    return 0;
+    return state.board.boardSides[side].store;
   }
 
   export function isKalahInStore(boardside: number, storeRowNum: number,
@@ -120,7 +120,7 @@ module game {
       rnum: number, cnum: number) {
       //  console.log("IsKalahInHouseCell: ");
       let boardHouseNum = hnum;
-      if (side === 0) {
+      if (side === 1) {
         boardHouseNum = NUM_HOUSES - 1 - hnum;
       }
 
@@ -139,7 +139,7 @@ module game {
     if (turnIndex != side) {
       return;
     }
-    if (side === 0) {
+    if (side === 1) {
       hnum = NUM_HOUSES - 1 - hnum;
     }
 
@@ -160,6 +160,12 @@ module game {
     }
 
   }
+
+  // export function shouldSlowlyAppearInStore(row: number, col: number): boolean {
+  //   return !animationEnded &&
+  //       state.delta &&
+  //       state.delta.row === row && state.delta.col === col;
+  // }
 
 }
 

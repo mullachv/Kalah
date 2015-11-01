@@ -25,15 +25,15 @@ describe("In Kalah", function() {
         {set: {key: 'board', value: {
           boardSides :
           [
-            {//side 0
+            {//side 0 -- near side in UI
                       store: 0,
                       house: [0,5,5,5,5,4],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
-            {//side 1
+            {//side 1 -- far side visually
                       store: 0,
                       house: [4,4,4,4,4,4],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }
@@ -49,12 +49,12 @@ describe("In Kalah", function() {
           {//side 0
                     store: 0,
                     house: [0,5,5,5,5,4],
-                    sowDir: SowDirType.RtoL
+                    sowDir: SowDirType.LtoR
           },
           {//side 1
                     store: 0,
                     house: [4,4,4,4,4,4],
-                    sowDir: SowDirType.LtoR
+                    sowDir: SowDirType.RtoL
           }
         ]
       }, delta: { boardSideId: 0, house: 0, nitems: 4}},
@@ -66,12 +66,12 @@ describe("In Kalah", function() {
             {//side 0
                       store: 0,
                       house: [0,5,5,5,5,4],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
             {//side 1
                       store: 0,
                       house: [4,0,5,5,5,5],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }
@@ -88,12 +88,12 @@ describe("In Kalah", function() {
             {//side 0
                       store: 0,
                       house: [0,5,5,5,5,4],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
             {//side 1
                       store: 0,
                       house: [4,4,4,4,4,4],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }, delta: { boardSideId: 0, house: 0, nitems: 4}},
@@ -105,12 +105,12 @@ describe("In Kalah", function() {
             {//side 0
                       store: 0,
                       house: [1,5,5,5,5,4],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
             {//side 1
                       store: 0,
                       house: [4,4,0,5,5,5],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }
@@ -127,12 +127,12 @@ describe("In Kalah", function() {
             {//side 0
                       store: 0,
                       house: [0,5,5,5,5,4],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
             {//side 1
                       store: 0,
                       house: [4,4,4,4,4,4],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }, delta: { boardSideId: 0, house: 0, nitems: 4}},
@@ -144,12 +144,12 @@ describe("In Kalah", function() {
             {//side 0
                       store: 0,
                       house: [0,5,5,5,5,4],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
             {//side 1
                       store: 1,
                       house: [5,4,4,0,5,5],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }
@@ -166,12 +166,12 @@ describe("In Kalah", function() {
             {//side 0
                       store: 0,
                       house: [0,5,5,5,5,4],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
             {//side 1
                       store: 0,
                       house: [4,4,4,4,4,4],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }, delta: { boardSideId: 0, house: 0, nitems: 4}},
@@ -183,12 +183,12 @@ describe("In Kalah", function() {
             {//side 0
                       store: 0,
                       house: [0,5,5,0,6,5],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
             {//side 1
                       store: 0,
                       house: [5,5,5,4,4,4],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }
@@ -205,12 +205,12 @@ describe("In Kalah", function() {
             {//side 0
                       store: 0,
                       house: [0,5,5,5,5,4],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
             {//side 1
                       store: 0,
                       house: [4,4,4,4,4,4],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }, delta: { boardSideId: 0, house: 0, nitems: 4}},
@@ -222,12 +222,12 @@ describe("In Kalah", function() {
             {//side 0
                       store: 0,
                       house: [0,5,5,0,6,5],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
             {//side 1
                       store: 1,
                       house: [4,4,0,5,5,5],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }
@@ -244,12 +244,12 @@ describe("In Kalah", function() {
             {//side 0
                       store: 25,
                       house: [0,0,0,0,0,0],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
             {//side 1
                       store: 20,
                       house: [0,0,0,0,2,1],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }, delta: { boardSideId: 0, house: 5, nitems: 1}},
@@ -261,12 +261,12 @@ describe("In Kalah", function() {
             {//side 0
                       store: 25,
                       house: [0,0,0,0,0,0],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
             {//side 1
                       store: 20,
                       house: [0,0,0,0,2,0],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }
@@ -283,12 +283,12 @@ describe("In Kalah", function() {
             {//side 0
                       store: 0,
                       house: [0,5,5,5,5,4],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
             {//side 1
                       store: 0,
                       house: [4,4,4,4,4,4],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }, delta: { boardSideId: 0, house: 0, nitems: 4}},
@@ -300,12 +300,12 @@ describe("In Kalah", function() {
             {//side 0
                       store: 0,
                       house: [0,5,5,5,5,4],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
             {//side 1
                       store: 0,
                       house: [4,4,4,4,4,4],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }
@@ -321,12 +321,12 @@ describe("In Kalah", function() {
           {//side 0
                     store: 7,
                     house: [2,2,5,0,5,4],
-                    sowDir: SowDirType.RtoL
+                    sowDir: SowDirType.LtoR
           },
           {//side 1
                     store: 6,
                     house: [0,0,0,5,4,8],
-                    sowDir: SowDirType.LtoR
+                    sowDir: SowDirType.RtoL
           }
         ]
       }, delta: { boardSideId: 0, house: 3, nitems: 2}},
@@ -338,12 +338,12 @@ describe("In Kalah", function() {
             {//side 0
                       store: 7,
                       house: [3,3,6,1,6,0],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
             {//side 1
                       store: 13,
                       house: [0,0,0,5,4,0],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }
@@ -359,12 +359,12 @@ describe("In Kalah", function() {
           {//side 0
                     store: 24,
                     house: [0,0,0,0,0,1],
-                    sowDir: SowDirType.RtoL
+                    sowDir: SowDirType.LtoR
           },
           {//side 1
                     store: 22,
                     house: [0,0,0,0,0,1],
-                    sowDir: SowDirType.LtoR
+                    sowDir: SowDirType.RtoL
           }
         ]
       }, delta: { boardSideId: 1, house: 4, nitems: 1}},
@@ -376,12 +376,12 @@ describe("In Kalah", function() {
             {//side 0
                       store: 25,
                       house: [0,0,0,0,0,0],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
             {//side 1
                       store: 22,
                       house: [0,0,0,0,0,1],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }
@@ -398,12 +398,12 @@ describe("In Kalah", function() {
             {//side 0
                       store: 23,
                       house: [0,0,1,0,0,0],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
             {//side 1
                       store: 23,
                       house: [0,0,1,0,0,0],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }, delta: { boardSideId: 0, house: 1, nitems: 1}},
@@ -415,12 +415,12 @@ describe("In Kalah", function() {
               {//side 0
                         store: 23,
                         house: [0,0,0,0,0,0],
-                        sowDir: SowDirType.RtoL
+                        sowDir: SowDirType.LtoR
               },
               {//side 1
                         store: 25,
                         house: [0,0,0,0,0,0],
-                        sowDir: SowDirType.LtoR
+                        sowDir: SowDirType.RtoL
               }
             ]
           }
@@ -436,12 +436,12 @@ describe("In Kalah", function() {
             {//side 0
                       store: 23,
                       house: [0,0,0,0,0,1],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
             {//side 1
                       store: 18,
                       house: [0,1,2,3,0,0],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }, delta: { boardSideId: 1, house: 0, nitems: 1}},
@@ -453,12 +453,12 @@ describe("In Kalah", function() {
               {//side 0
                         store: 24,
                         house: [0,0,0,0,0,0],
-                        sowDir: SowDirType.RtoL
+                        sowDir: SowDirType.LtoR
               },
               {//side 1
                         store: 18,
                         house: [0,1,2,3,0,0],
-                        sowDir: SowDirType.LtoR
+                        sowDir: SowDirType.RtoL
               }
             ]
           }
@@ -466,77 +466,5 @@ describe("In Kalah", function() {
           {set: {key: 'delta', value: { boardSideId: 0, house: 5, nitems: 1}}}]);
     });
 
-  //
-  // it("the game ties when there are no more empty cells", function() {
-  //   expectMoveOk(0,
-  //     {board:
-  //       [['X', 'O', 'X'],
-  //        ['X', 'O', 'O'],
-  //        ['O', 'X', '']], delta: {row: 2, col: 0}},
-  //     [{endMatch: {endMatchScores: [0, 0]}},
-  //           {set: {key: 'board', value:
-  //             [['X', 'O', 'X'],
-  //              ['X', 'O', 'O'],
-  //              ['O', 'X', 'X']]}},
-  //           {set: {key: 'delta', value: {row: 2, col: 2}}}]);
-  // });
-  //
-  // it("null move is illegal", function() {
-  //   expectIllegalMove(0, {}, null);
-  // });
-  //
-  // it("move without board is illegal", function() {
-  //   expectIllegalMove(0, {}, [{setTurn: {turnIndex : 1}}]);
-  // });
-  //
-  // it("move without delta is illegal", function() {
-  //   expectIllegalMove(0, {}, [{setTurn: {turnIndex : 1}},
-  //     {set: {key: 'board', value:
-  //       [['X', '', ''],
-  //        ['', '', ''],
-  //        ['', '', '']]}}]);
-  // });
-  //
-  // it("placing X outside the board (in 3x0) is illegal", function() {
-  //   expectIllegalMove(0, {}, [{setTurn: {turnIndex : 1}},
-  //     {set: {key: 'board', value:
-  //       [['X', '', ''],
-  //        ['', '', ''],
-  //        ['', '', '']]}},
-  //     {set: {key: 'delta', value: {row: 3, col: 0}}}]);
-  // });
-  //
-  // it("placing X in 0x0 but setTurn to yourself is illegal", function() {
-  //   expectIllegalMove(0, {}, [{setTurn: {turnIndex : 0}},
-  //     {set: {key: 'board', value:
-  //       [['X', '', ''],
-  //        ['', '', ''],
-  //        ['', '', '']]}},
-  //     {set: {key: 'delta', value: {row: 0, col: 0}}}]);
-  // });
-  //
-  // it("placing X in 0x0 but setting the board wrong is illegal", function() {
-  //   expectIllegalMove(0, {}, [{setTurn: {turnIndex : 1}},
-  //     {set: {key: 'board', value:
-  //       [['X', 'X', ''],
-  //        ['', '', ''],
-  //        ['', '', '']]}},
-  //     {set: {key: 'delta', value: {row: 0, col: 0}}}]);
-  // });
-  //
-  // it("getPossibleMoves returns exactly one cell", function() {
-  //   var board =
-  //       [['O', 'O', 'X'],
-  //        ['X', 'X', 'O'],
-  //        ['O', 'X', '']];
-  //   var possibleMoves = gameLogic.getPossibleMoves(board, 0);
-  //   var expectedMove = [{endMatch: {endMatchScores: [0, 0]}},
-  //       {set: {key: 'board', value:
-  //         [['O', 'O', 'X'],
-  //          ['X', 'X', 'O'],
-  //          ['O', 'X', 'X']]}},
-  //       {set: {key: 'delta', value: {row: 2, col: 2}}}];
-  //   expect(angular.equals(possibleMoves, [expectedMove])).toBe(true);
-  // });
 
 });

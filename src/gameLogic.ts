@@ -40,12 +40,12 @@ module gameLogic {
    */
 
   export function getInitialBoard(): Board {
-    var side0:BoardSide = {//side 0, player 0, the far side (the upper side in UI)
+    var side1:BoardSide = {//side 1, player 1, the far side (the upper side in UI)
               store: 0,
               house: [4,4,4,4,4,4],
               sowDir: SowDirType.RtoL
     };
-    var side1:BoardSide = {//side 1, player 1, the far side (the upper side in UI)
+    var side0:BoardSide = {//side 0, player 0, the near side (the lower side in UI)
               store: 0,
               house: [4,4,4,4,4,4],
               sowDir: SowDirType.LtoR
@@ -163,7 +163,7 @@ module gameLogic {
       var startHouse : number = wkdelta.house + 1;
       while (wkdelta.nitems > 0) {
           if (boardAfterMove.boardSides[turnIndexBeforeMove].sowDir ===
-                SowDirType.RtoL) {//side 0 RtoL
+                SowDirType.RtoL) {//side 1 RtoL
               lastVisitedLocn.sowDir = SowDirType.RtoL;
           } else {
               lastVisitedLocn.sowDir = SowDirType.LtoR;
@@ -225,7 +225,7 @@ module gameLogic {
       } else if ( winner !== null) {
         // Game over
         firstOperation = {endMatch: {endMatchScores:
-          winner.sowDir === SowDirType.LtoR ? [0, 1] : [1, 0]}};
+          winner.sowDir === SowDirType.LtoR ? [1, 0] : [0, 1]}};
       } else {
         //check for move continuation - if you end in your own store
         if (lastVisitedLocn.store) {

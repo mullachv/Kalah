@@ -4,6 +4,7 @@ var game;
     var canMakeMove = false;
     var isComputerTurn = false;
     var state = null;
+    var stateBefore = null;
     var turnIndex = null;
     game.isHelpModalShown = false;
     var INIT_SEED_COUNT_PER_HOUSE = 4;
@@ -33,6 +34,7 @@ var game;
         });
     }
     function sendComputerMove() {
+        //console.log("In Send comp move");
         gameService.makeMove(aiService.createComputerMove(state.board, turnIndex, 
         // at most 1 second for the AI to choose a move (but might be much quicker)
         { millisecondsLimit: 1000 }));
@@ -40,12 +42,15 @@ var game;
     function updateUI(params) {
         animationEnded = false;
         state = params.stateAfterMove;
+        stateBefore = params.stateBeforeMove;
         if (!state.board) {
             state.board = gameLogic.getInitialBoard();
         }
         canMakeMove = params.turnIndexAfterMove >= 0 &&
             params.yourPlayerIndex === params.turnIndexAfterMove; // it's my turn
         turnIndex = params.turnIndexAfterMove;
+        // console.log("IUpdate UI");
+        // console.log("upd ui: " + JSON.stringify(params));
         // Is it the computer's turn?
         isComputerTurn = canMakeMove &&
             params.playersInfo[params.yourPlayerIndex].playerId === '';
@@ -55,22 +60,15 @@ var game;
             // We calculate the AI move only after the animation finishes,
             // because if we call aiService now
             // then the animation will be paused until the javascript finishes.
-            if (!state.delta) {
-                // This is the first move in the match, so
-                // there is not going to be an animation, so
-                // call sendComputerMove() now (can happen in ?onlyAIs mode)
-                sendComputerMove();
-            }
+            //  if (!state.delta) {
+            // This is the first move in the match, so
+            // there is not going to be an animation, so
+            // call sendComputerMove() now (can happen in ?onlyAIs mode)
+            sendComputerMove();
         }
     }
     function getStoreCount(side) {
-        if (side === 0) {
-            return state.board.boardSides[0].store;
-        }
-        if (side === 1) {
-            return state.board.boardSides[1].store;
-        }
-        return 0;
+        return state.board.boardSides[side].store;
     }
     game.getStoreCount = getStoreCount;
     function isKalahInStore(boardside, storeRowNum, storeColNum) {
@@ -111,7 +109,7 @@ var game;
     function IsKalahInHouseCell(side, hnum, rnum, cnum) {
         //  console.log("IsKalahInHouseCell: ");
         var boardHouseNum = hnum;
-        if (side === 0) {
+        if (side === 1) {
             boardHouseNum = NUM_HOUSES - 1 - hnum;
         }
         var nSeeds = state.board.boardSides[side].house[boardHouseNum];
@@ -129,7 +127,7 @@ var game;
         if (turnIndex != side) {
             return;
         }
-        if (side === 0) {
+        if (side === 1) {
             hnum = NUM_HOUSES - 1 - hnum;
         }
         var nSeeds = state.board.boardSides[side].house[hnum];

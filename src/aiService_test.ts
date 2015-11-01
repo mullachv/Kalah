@@ -8,12 +8,12 @@ describe("aiService", function() {
           {//side 0
                     store: 24,
                     house: [0,0,0,0,0,1],
-                    sowDir: SowDirType.RtoL
+                    sowDir: SowDirType.LtoR
           },
           {//side 1
                     store: 22,
                     house: [0,0,0,0,0,1],
-                    sowDir: SowDirType.LtoR
+                    sowDir: SowDirType.RtoL
           }
         ]
       }, 0, {maxDepth: 1});
@@ -26,12 +26,12 @@ describe("aiService", function() {
             {//side 0
                       store: 25,
                       house: [0,0,0,0,0,0],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
             {//side 1
                       store: 22,
                       house: [0,0,0,0,0,1],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }
@@ -49,12 +49,12 @@ describe("aiService", function() {
           {//side 0
                     store: 24,
                     house: [0,0,1,0,0,0],
-                    sowDir: SowDirType.RtoL
+                    sowDir: SowDirType.LtoR
           },
           {//side 1
                     store: 20,
                     house: [1,2,0,0,0,0],
-                    sowDir: SowDirType.LtoR
+                    sowDir: SowDirType.RtoL
           }
         ]
       }, 1, {maxDepth: 10});
@@ -67,12 +67,12 @@ describe("aiService", function() {
             {//side 0
                       store: 24,
                       house: [0,0,0,0,0,0],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
             {//side 1
                       store: 22,
                       house: [1,0,1,0,0,0],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }
@@ -89,12 +89,12 @@ describe("aiService", function() {
           {//side 0
                     store: 23,
                     house: [0,0,0,2,0,0],
-                    sowDir: SowDirType.RtoL
+                    sowDir: SowDirType.LtoR
           },
           {//side 1
                     store: 20,
                     house: [1,1,1,0,0,0],
-                    sowDir: SowDirType.LtoR
+                    sowDir: SowDirType.RtoL
           }
         ]
       }, 1, {maxDepth: 1});
@@ -107,12 +107,12 @@ describe("aiService", function() {
             {//side 0
                       store: 23,
                       house: [0,0,0,2,0,0],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
             {//side 1
                       store: 20,
                       house: [0,2,1,0,0,0],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }
@@ -130,12 +130,12 @@ describe("aiService", function() {
           {//side 0
             store: 20,
             house: [1,1,1,0,0,0],
-            sowDir: SowDirType.RtoL
+            sowDir: SowDirType.LtoR
           },
           {//side 1
             store: 23,
             house: [0,0,0,2,0,0],
-            sowDir: SowDirType.LtoR
+            sowDir: SowDirType.RtoL
           }
         ]
       }, 0, {maxDepth: 1});
@@ -148,12 +148,12 @@ describe("aiService", function() {
             {//side 0
                       store: 20,
                       house: [0,2,1,0,0,0],
-                      sowDir: SowDirType.RtoL
+                      sowDir: SowDirType.LtoR
             },
             {//side 1
                       store: 23,
                       house: [0,0,0,2,0,0],
-                      sowDir: SowDirType.LtoR
+                      sowDir: SowDirType.RtoL
             }
           ]
         }
@@ -171,12 +171,12 @@ describe("aiService", function() {
           {//side 0
             store: 23,
             house: [2,0,0,1,0,0],
-            sowDir: SowDirType.RtoL
+            sowDir: SowDirType.LtoR
           },
           {//side 1
             store: 20,
             house: [1,0,0,0,1,0],
-            sowDir: SowDirType.LtoR
+            sowDir: SowDirType.RtoL
           }
         ]
       }, 1, {maxDepth: 3});
@@ -191,12 +191,12 @@ describe("aiService", function() {
           {//side 0
             store: 20,
             house: [1,0,0,0,1,0],
-            sowDir: SowDirType.RtoL
+            sowDir: SowDirType.LtoR
           },
           {//side 1
             store: 23,
             house: [2,0,0,1,0,0],
-            sowDir: SowDirType.LtoR
+            sowDir: SowDirType.RtoL
           }
         ]
       }, 0, {maxDepth: 3});
