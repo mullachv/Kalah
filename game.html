@@ -52,7 +52,7 @@
         <div class="modal-header">
           <button type="button" class="close" ng-click="game.isHelpModalShown = false" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title" id="myModalLabel">
-            {{ 'RULES_OF_KALAH' }}
+            {{ 'RULES_OF_KALAH' | translate }}
           </h4>
         </div>
         <div class="modal-body">
@@ -61,7 +61,7 @@
               <table>
                 <tr>
                   <td>
-                    {{ 'RULES_SLIDE1' }}
+                    {{ 'RULES_SLIDE1' | translate}}
                   </td>
                   <td>
                     <img src="imgs/HelpSlide1.png" style="height:100px;">
@@ -73,7 +73,7 @@
               <table>
                 <tr>
                   <td>
-                  {{ 'RULES_SLIDE2'  }}
+                  {{ 'RULES_SLIDE2' |translate }}
                   </td>
                   <td>
                     <img src="imgs/HelpSlide2.png" style="height:100px;">
@@ -124,7 +124,7 @@
           </div>
         </div>
     </div>
-    
+
     <!--- Player 1 houses  -->
     <!-- player 1 houses, 6 of them -->
     <div ng-repeat="hs in game.getHouseArray()"
