@@ -185,7 +185,7 @@ module game {
       return false;
     }
     let impliedCount = row * 2 + col + 1;
-    if (impliedCount >= seedsBefore) {
+    if (impliedCount > seedsBefore) {
       return true;
     }
     return false;

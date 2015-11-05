@@ -170,7 +170,7 @@ var game;
             return false;
         }
         var impliedCount = row * 2 + col + 1;
-        if (impliedCount >= seedsBefore) {
+        if (impliedCount > seedsBefore) {
             return true;
         }
         return false;
