@@ -147,6 +147,53 @@ var game;
         }
     }
     game.houseClicked = houseClicked;
+    function shouldSlowlyAppearInStore(side, row, col) {
+        if (!state) {
+            return false;
+        }
+        if (!stateBefore) {
+            return false;
+        }
+        if (!stateBefore.board) {
+            return false;
+        }
+        // console.log("before: " + JSON.stringify(stateBefore));
+        // console.log("now: " + JSON.stringify(state));
+        var hnum = col;
+        if (side === 1) {
+            hnum = NUM_HOUSES - 1 - hnum;
+        }
+        var seedsBefore = stateBefore.board.boardSides[side].store;
+        var seedsNow = state.board.boardSides[side].store;
+        //console.log("now: " + seedsNow + " before: " + seedsBefore);
+        if (seedsNow <= seedsBefore) {
+            return false;
+        }
+        var impliedCount = row * 2 + col + 1;
+        if (impliedCount >= seedsBefore) {
+            return true;
+        }
+        return false;
+        // return !animationEnded &&
+        //     state.delta &&
+        //     state.delta.row === row && state.delta.col === col;
+    }
+    game.shouldSlowlyAppearInStore = shouldSlowlyAppearInStore;
+    function shouldSlowlyAppearStoreCount(side) {
+        if (!state) {
+            return false;
+        }
+        if (!stateBefore) {
+            return false;
+        }
+        if (!stateBefore.board) {
+            return false;
+        }
+        var seedsBefore = stateBefore.board.boardSides[side].store;
+        var seedsNow = state.board.boardSides[side].store;
+        return seedsNow !== seedsBefore;
+    }
+    game.shouldSlowlyAppearStoreCount = shouldSlowlyAppearStoreCount;
 })(game || (game = {}));
 angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])
     .run(function () {

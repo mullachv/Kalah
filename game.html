@@ -102,21 +102,23 @@
     <div style="position:absolute; top:0; left:0%; width:12.5%; height:100%;overflow:hidden"
         class="rg bg lg tg store">
         <!-- Store seed count -->
-        <div style="position:absolute; top:0%; left:0%; width:100%; height:4%; text-align:center">
+        <div
+        ng-class="{slowlyAppear: game.shouldSlowlyAppearStoreCount(1)}"
+        style="position:absolute; top:0%; left:0%; width:100%; height:4%; text-align:center">
           <text style="font-family: Calibri; font-size: 20pt;
           font-color: cornflowerblue; center; width=100%">{{game.getStoreCount(1)}}</text>
         </div>
         <div ng-repeat="row in game.getStoreDisplayRowArray()"
           style="position:absolute; top:{{8+4*row}}%; left:0%; width:100%; height:4%;">
           <div
-            ng-class="{slowlyAppear: game.shouldSlowlyAppearInStore(row, 0)}"
+            ng-class="{slowlyAppear: game.shouldSlowlyAppearInStore(1, row, 0)}"
             style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
             <svg ng-show="game.isKalahInStore(1, row, 0)" width="100%" height="100%" padding="0%">
               <ellipse class="mancalas"/>
             </svg>
           </div>
           <div
-          ng-class="{slowlyAppear: game.shouldSlowlyAppearInStore(row, 1)}"
+          ng-class="{slowlyAppear: game.shouldSlowlyAppearInStore(1, row, 1)}"
           style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
             <svg ng-show="game.isKalahInStore(1, row, 1)" width="100%" height="100%" padding="0%">
               <ellipse class="mancalas"/>
@@ -196,12 +198,16 @@
         <!-- rows of store side 0 -->
         <div ng-repeat="row in game.getStoreDisplayRowArray()"
             style="position:absolute; top:{{88-4*row}}%; left:0; width:100%; height:4%;">
-          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+          <div
+          ng-class="{slowlyAppear: game.shouldSlowlyAppearInStore(0, row, 0)}"
+          style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
             <svg ng-show="game.isKalahInStore(0, row, 0)" width="100%" height="100%" padding="0%">
               <ellipse class="mancalas"/>
             </svg>
           </div>
-          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+          <div
+          ng-class="{slowlyAppear: game.shouldSlowlyAppearInStore(0, row, 1)}"
+          style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
             <svg ng-show="game.isKalahInStore(0, row, 1)" width="100%" height="100%" padding="0%">
               <ellipse class="mancalas"/>
             </svg>
@@ -209,7 +215,9 @@
         </div>
 
         <!-- Store seed count -->
-        <div style="position:absolute; top:94%; left:0; width:100%; height:4%; text-align:center">
+        <div
+        ng-class="{slowlyAppear: game.shouldSlowlyAppearStoreCount(0)}"
+        style="position:absolute; top:94%; left:0; width:100%; height:4%; text-align:center">
           <text style="font-family: Calibri; font-size: 20pt;
           font-color: cornflowerblue; center; width=100%">{{game.getStoreCount(0)}}</text>
         </div>

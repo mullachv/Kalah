@@ -161,12 +161,55 @@ module game {
 
   }
 
-  // export function shouldSlowlyAppearInStore(row: number, col: number): boolean {
-  //   return !animationEnded &&
-  //       state.delta &&
-  //       state.delta.row === row && state.delta.col === col;
-  // }
+  export function shouldSlowlyAppearInStore(side: number, row: number, col: number): boolean {
+    if (!state) {
+      return false;
+    }
+    if (!stateBefore) {
+      return false;
+    }
+    if (!stateBefore.board) {
+      return false;
+    }
+    // console.log("before: " + JSON.stringify(stateBefore));
+    // console.log("now: " + JSON.stringify(state));
+    let hnum = col;
+    if (side === 1) {
+      hnum = NUM_HOUSES - 1 - hnum;
+    }
+    let seedsBefore = stateBefore.board.boardSides[side].store;
+    let seedsNow = state.board.boardSides[side].store;
+    //console.log("now: " + seedsNow + " before: " + seedsBefore);
 
+    if (seedsNow <= seedsBefore) {
+      return false;
+    }
+    let impliedCount = row * 2 + col + 1;
+    if (impliedCount >= seedsBefore) {
+      return true;
+    }
+    return false;
+
+    // return !animationEnded &&
+    //     state.delta &&
+    //     state.delta.row === row && state.delta.col === col;
+  }
+
+  export function shouldSlowlyAppearStoreCount(side: number): boolean {
+    if (!state) {
+      return false;
+    }
+    if (!stateBefore) {
+      return false;
+    }
+    if (!stateBefore.board) {
+      return false;
+    }
+    let seedsBefore = stateBefore.board.boardSides[side].store;
+    let seedsNow = state.board.boardSides[side].store;
+    return seedsNow !== seedsBefore;
+  }
+  
 }
 
 angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])

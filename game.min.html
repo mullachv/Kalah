@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>TicTacToe</title>
-  <meta name="description" content="TicTacToe game">
+  <title>Kalah</title>
+  <meta name="description" content="Kalah game">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
   <!-- The crossorigin attribute controls, for scripts that are obtained from other origins, whether error information will be exposed. -->
@@ -19,7 +19,7 @@
 
   <script src="http://yoav-zibin.github.io/emulator/dist/turnBasedServices.3.min.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="http://yoav-zibin.github.io/emulator/main.css">
+  <link rel="stylesheet" type="text/css" href="https://yoav-zibin.github.io/emulator/main.css">
   <link rel="stylesheet" type="text/css" href="game.css">
 </head>
 <body ng-cloak>
@@ -28,6 +28,7 @@
         class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
   </div>
 
+  <!-- modal for Help -->
   <div class="overlayModal" ng-class="{zeroOpacity: !game.isHelpModalShown, oneOpacity: game.isHelpModalShown}" aria-hidden="true">
     <div class="modal-backdrop in"></div>
     <div class="modal-dialog">
@@ -35,7 +36,7 @@
         <div class="modal-header">
           <button type="button" class="close" ng-click="game.isHelpModalShown = false" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title" id="myModalLabel">
-            {{ 'RULES_OF_TICTACTOE' | translate }}
+            {{ 'RULES_OF_KALAH' | translate }}
           </h4>
         </div>
         <div class="modal-body">
@@ -44,7 +45,7 @@
               <table>
                 <tr>
                   <td>
-                    {{ 'RULES_SLIDE1' | translate }}
+                    {{ 'RULES_SLIDE1' | translate}}
                   </td>
                   <td>
                     <img src="imgs/HelpSlide1.png" style="height:100px;">
@@ -56,7 +57,7 @@
               <table>
                 <tr>
                   <td>
-                  {{ 'RULES_SLIDE2' | translate }}
+                  {{ 'RULES_SLIDE2' |translate }}
                   </td>
                   <td>
                     <img src="imgs/HelpSlide2.png" style="height:100px;">
@@ -68,7 +69,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" ng-click="game.isHelpModalShown = false">
-            {{ 'CLOSE' | translate }}
+            {{ 'CLOSE' }}
           </button>
         </div>
       </div>
@@ -77,37 +78,139 @@
 
 <div id="gameArea">
 
-  <div ng-repeat="row in [0, 1, 2]"
-      style="position:absolute; top:{{row * 33}}%; left:0; width:100%; height:33%;">
-    <div ng-repeat="col in [0, 1, 2]"
-        style="position:absolute; top:0; left:{{col * 33}}%; width:33%; height:100%;"
-        ng-class="{r: col < 2, b: row < 2}"
-        ng-click="game.cellClicked(row, col)"
-        id="{{'e2e_test_div_' + row + 'x' + col}}">
-      <div style="width:100%; height: 100%"
-          ng-class="{slowlyAppear: game.shouldSlowlyAppear(row, col)}"
-          ng-show="game.shouldShowImage(row, col)">
-        <svg ng-show="game.isPieceO(row, col)"
-            id="{{'e2e_test_pieceO_' + row + 'x' + col}}"
-            width="100%" height="100%">
-          <circle cx="50%" cy="50%" r="27%"
-            stroke="blue" stroke-width="5%" fill="white" />
-        </svg>
-        <svg ng-show="game.isPieceX(row, col)"
-            id="{{'e2e_test_pieceX_' + row + 'x' + col}}"
-            width="100%" height="100%">
-          <line x1="25%" y1="25%"
-                x2="75%" y2="75%"
-                stroke="red"
-                stroke-width="5%"/>
-          <line x1="25%" y1="75%"
-                x2="75%" y2="25%"
-                stroke="red"
-                stroke-width="5%"/>
-        </svg>
-      </div>
+  <div style="position:absolute; top:15%; left:0; width:100%; height:60%;">
+
+    <!-- player 1 houses and store -->
+
+    <!-- player 1 store -->
+    <div style="position:absolute; top:0; left:0%; width:12.5%; height:100%;overflow:hidden"
+        class="rg bg lg tg store">
+        <!-- Store seed count -->
+        <div
+        ng-class="{slowlyAppear: game.shouldSlowlyAppearStoreCount(1)}"
+        style="position:absolute; top:0%; left:0%; width:100%; height:4%; text-align:center">
+          <text style="font-family: Calibri; font-size: 20pt;
+          font-color: cornflowerblue; center; width=100%">{{game.getStoreCount(1)}}</text>
+        </div>
+        <div ng-repeat="row in game.getStoreDisplayRowArray()"
+          style="position:absolute; top:{{8+4*row}}%; left:0%; width:100%; height:4%;">
+          <div
+            ng-class="{slowlyAppear: game.shouldSlowlyAppearInStore(1, row, 0)}"
+            style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+            <svg ng-show="game.isKalahInStore(1, row, 0)" width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+          <div
+          ng-class="{slowlyAppear: game.shouldSlowlyAppearInStore(1, row, 1)}"
+          style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+            <svg ng-show="game.isKalahInStore(1, row, 1)" width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+        </div>
     </div>
+
+    <!--- Player 1 houses  -->
+    <!-- player 1 houses, 6 of them -->
+    <div ng-repeat="hs in game.getHouseArray()"
+        ng-click="game.houseClicked(1, hs)"
+        style="position:absolute; top:0; left:{{12.5+12.5*hs}}%; width:12.5%; height:45%;"
+        class="rg bg tg house">
+
+        <!-- Each row in house -->
+        <div ng-repeat="rs in game.getHouseRowArray()" style="position:absolute;
+              top:{{-20+12.5*rs}}%;
+              left:0; width:100%; height:50%;">
+
+              <!-- col 0-->
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+            <svg ng-show="game.IsKalahInHouseCell(1, hs, rs, 0)" width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas inhouse"/>
+            </svg>
+          </div>
+
+          <!-- col 1-->
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+            <svg ng-show="game.IsKalahInHouseCell(1, hs, rs, 1)" width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas inhouse"/>
+            </svg>
+          </div>
+
+        </div>
+
+    </div>
+
+    <!--- The 10% vertical gap between player 0 houses and player 1 houses  -->
+    <div style="position:absolute; top:45%; left:12.5%; width:75%; height:10%;"
+        class="vgap">
+    </div>
+
+    <!-- player 0 house and store -->
+    <!-- 6 houses -->
+    <div ng-repeat="hs in game.getHouseArray()"
+        ng-click="game.houseClicked(0, hs)"
+        style="position:absolute; top:55%; left:{{12.5+12.5*hs}}%; width:12.5%; height:45%;"
+        class="rb bb tb house">
+
+        <!-- Each row in house -->
+        <div ng-repeat="rs in game.getHouseRowArray()" style="position:absolute;
+              top:{{70 - 12.5*rs}}%;
+              left:0; width:100%; height:50%;">
+
+              <!-- col 0-->
+          <div style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+            <svg ng-show="game.IsKalahInHouseCell(0, hs, rs, 0)" width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas inhouse"/>
+            </svg>
+          </div>
+
+          <!-- col 1-->
+          <div style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+            <svg ng-show="game.IsKalahInHouseCell(0, hs, rs, 1)" width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas inhouse"/>
+            </svg>
+          </div>
+        </div>
+
+    </div>
+
+    <!-- player 0 store -->
+    <div style="position:absolute; top:0; left:87.5%; width:12.5%; height:100%;"
+        class="rb bb lb tb store">
+
+        <!-- rows of store side 0 -->
+        <div ng-repeat="row in game.getStoreDisplayRowArray()"
+            style="position:absolute; top:{{88-4*row}}%; left:0; width:100%; height:4%;">
+          <div
+          ng-class="{slowlyAppear: game.shouldSlowlyAppearInStore(0, row, 0)}"
+          style="position:absolute; left:1%; top: 0%; width:50%; height: 100%">
+            <svg ng-show="game.isKalahInStore(0, row, 0)" width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+          <div
+          ng-class="{slowlyAppear: game.shouldSlowlyAppearInStore(0, row, 1)}"
+          style="position:absolute; left:51%; top: 0%; width:50%; height: 100%">
+            <svg ng-show="game.isKalahInStore(0, row, 1)" width="100%" height="100%" padding="0%">
+              <ellipse class="mancalas"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Store seed count -->
+        <div
+        ng-class="{slowlyAppear: game.shouldSlowlyAppearStoreCount(0)}"
+        style="position:absolute; top:94%; left:0; width:100%; height:4%; text-align:center">
+          <text style="font-family: Calibri; font-size: 20pt;
+          font-color: cornflowerblue; center; width=100%">{{game.getStoreCount(0)}}</text>
+        </div>
+
+    </div>
+
   </div>
+
+
 </div>
 
 </body>
