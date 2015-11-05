@@ -209,7 +209,7 @@ module game {
     let seedsNow = state.board.boardSides[side].store;
     return seedsNow !== seedsBefore;
   }
-  
+
 }
 
 angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])
