@@ -34,10 +34,17 @@ var game;
         });
     }
     function sendComputerMove() {
-        //console.log("In Send comp move");
-        gameService.makeMove(aiService.createComputerMove(state.board, turnIndex, 
-        // at most 1 second for the AI to choose a move (but might be much quicker)
-        { millisecondsLimit: 1000 }));
+        // To make sure we send the computer move just once
+        if (!isComputerTurn) {
+            return;
+        }
+        isComputerTurn = false;
+        $timeout(function () {
+            //console.log("In Send comp move");
+            gameService.makeMove(aiService.createComputerMove(state.board, turnIndex, 
+            // at most 1 second for the AI to choose a move (but might be much quicker)
+            { millisecondsLimit: 1000 }));
+        }, 500);
     }
     function updateUI(params) {
         animationEnded = false;
@@ -60,6 +67,7 @@ var game;
             // We calculate the AI move only after the animation finishes,
             // because if we call aiService now
             // then the animation will be paused until the javascript finishes.
+            console.log("" + JSON.stringify(state));
             //  if (!state.delta) {
             // This is the first move in the match, so
             // there is not going to be an animation, so
