@@ -223,11 +223,11 @@ module game {
 angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])
   .run(function () {
   $rootScope['game'] = game;
-  translate.setLanguage('en',  {
-    RULES_OF_KALAH: "Rules of Kalah",
-    RULES_SLIDE1: "Players take turns to sow the seeds anti-clockwise.",
-    RULES_SLIDE2: "The one to collect more than 24 seeds in their store wins.",
-    CLOSE: "Close"
-  });
+  // translate.setLanguage('en',  {
+  //   RULES_OF_KALAH: "Rules of Kalah",
+  //   RULES_SLIDE1: "Players take turns to sow the seeds anti-clockwise.",
+  //   RULES_SLIDE2: "The one to collect more than 24 seeds in their store wins.",
+  //   CLOSE: "Close"
+  // });
   game.init();
 });
