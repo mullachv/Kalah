@@ -239,7 +239,7 @@ var gameLogic;
     var MAX_ROWS_IN_A_HOUSE = 8;
     function init() {
         console.log("Translation of 'RULES_OF_KALAH' is " + translate('RULES_OF_KALAH'));
-        resizeGameAreaService.setWidthToHeight(1);
+        resizeGameAreaService.setWidthToHeight(1.67);
         gameService.setGame({
             minNumberOfPlayers: 2,
             maxNumberOfPlayers: 2,
