@@ -83,7 +83,7 @@ module game {
         sendComputerMove();
     //  }
     }
-
+    //playMode = 1 means your playerIndex = 1 (in a multiplayer mode)
     flipMode = params.playMode === 1;
     console.log("flip: " + flipMode);
   }
