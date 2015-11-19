@@ -27,22 +27,6 @@
   width=100%;
 }
 
-.mancalas {
-  cx: 50%;
-  cy: 50%;
-  rx: 30%;
-  ry: 40%;
-  fill: lightslategray;
-  stroke: YellowGreen;
-  stroke-width: 5%;
-}
-
-.inhouse {
-  rx: 30%;
-  ry: 10%;
-  overflow: visible;
-}
-
 .slowlyAppear {
 	-webkit-animation: slowlyAppear 1.5s linear;
 	-moz-animation: slowlyAppear 1.5s linear;
