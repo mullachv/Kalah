@@ -303,11 +303,7 @@ var gameLogic;
             // call sendComputerMove() now (can happen in ?onlyAIs mode)
             sendComputerMove();
         }
-        //flip the directions on the board, if mode is 'passAndPlay' or 'multi-player'
-        flipMode = canMakeMove && params.playMode === 'passAndPlay';
-        flipMode = flipMode || canMakeMove && params.playMode === 1;
-        //And if yourPlayerIndex is 1
-        flipMode = flipMode && params.yourPlayerIndex === 1;
+        flipMode = params.playMode === 1;
         console.log("flip: " + flipMode);
     }
     function shouldFlipDisplay() {
