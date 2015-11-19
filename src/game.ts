@@ -62,7 +62,7 @@ module game {
     turnIndex = params.turnIndexAfterMove;
 
     // console.log("IUpdate UI");
-    // console.log("upd ui: " + JSON.stringify(params));
+    console.log("upd ui: " + JSON.stringify(params));
 
     // Is it the computer's turn?
     isComputerTurn = canMakeMove &&

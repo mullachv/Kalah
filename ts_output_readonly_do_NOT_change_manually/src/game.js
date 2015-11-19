@@ -57,7 +57,7 @@ var game;
             params.yourPlayerIndex === params.turnIndexAfterMove; // it's my turn
         turnIndex = params.turnIndexAfterMove;
         // console.log("IUpdate UI");
-        // console.log("upd ui: " + JSON.stringify(params));
+        console.log("upd ui: " + JSON.stringify(params));
         // Is it the computer's turn?
         isComputerTurn = canMakeMove &&
             params.playersInfo[params.yourPlayerIndex].playerId === '';
