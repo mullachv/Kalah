@@ -9,6 +9,7 @@ var game;
     game.isHelpModalShown = false;
     var INIT_SEED_COUNT_PER_HOUSE = 4;
     var MAX_ROWS_IN_A_HOUSE = 8;
+    var flipMode = false; //board side switching in display
     function init() {
         console.log("Translation of 'RULES_OF_KALAH' is " + translate('RULES_OF_KALAH'));
         resizeGameAreaService.setWidthToHeight(1.67);
@@ -74,7 +75,17 @@ var game;
             // call sendComputerMove() now (can happen in ?onlyAIs mode)
             sendComputerMove();
         }
+        //flip the directions on the board, if mode is 'passAndPlay' or 'multi-player'
+        flipMode = canMakeMove && params.playMode === 'passAndPlay';
+        flipMode = flipMode || canMakeMove && params.playMode === 1;
+        //And if yourPlayerIndex is 1
+        flipMode = flipMode && params.yourPlayerIndex === 1;
+        console.log("flip: " + flipMode);
     }
+    function shouldFlipDisplay() {
+        return flipMode;
+    }
+    game.shouldFlipDisplay = shouldFlipDisplay;
     function getStoreCount(side) {
         //console.log("Store count called: " + side + "num: " + state.board.boardSides[side].store);
         return state.board.boardSides[side].store;
@@ -90,10 +101,18 @@ var game;
     }
     game.getStoreCountAsArray = getStoreCountAsArray;
     function getHouseSeedCount(side, house) {
-        if (side === 1) {
-            house = NUM_HOUSES - 1 - house;
+        if (!shouldFlipDisplay()) {
+            if (side === 1) {
+                house = NUM_HOUSES - 1 - house;
+            }
+            return state.board.boardSides[side].house[house];
         }
-        return state.board.boardSides[side].house[house];
+        else {
+            if (side === 0) {
+                house = NUM_HOUSES - 1 - house;
+            }
+            return state.board.boardSides[side].house[house];
+        }
     }
     game.getHouseSeedCount = getHouseSeedCount;
     function getHouseSeedCountAsArray(side, house) {
@@ -248,21 +267,6 @@ var game;
         return hs;
     }
     game.getHouseRowArray = getHouseRowArray;
-    //boardside: 0|1; house: 0..5, rnum: 0..7, cnum:0|1
-    function IsKalahInHouseCell(side, hnum, rnum, cnum) {
-        //  console.log("IsKalahInHouseCell: ");
-        var boardHouseNum = hnum;
-        if (side === 1) {
-            boardHouseNum = NUM_HOUSES - 1 - hnum;
-        }
-        var nSeeds = state.board.boardSides[side].house[boardHouseNum];
-        var impliedCount = rnum * 2 + cnum + 1;
-        if (nSeeds >= impliedCount) {
-            return true;
-        }
-        return false;
-    }
-    game.IsKalahInHouseCell = IsKalahInHouseCell;
     function houseClicked(side, hnum) {
         if (!canMakeMove) {
             return;
@@ -270,8 +274,15 @@ var game;
         if (turnIndex != side) {
             return;
         }
-        if (side === 1) {
-            hnum = NUM_HOUSES - 1 - hnum;
+        if (!shouldFlipDisplay()) {
+            if (side === 1) {
+                hnum = NUM_HOUSES - 1 - hnum;
+            }
+        }
+        else {
+            if (side === 0) {
+                hnum = NUM_HOUSES - 1 - hnum;
+            }
         }
         var nSeeds = state.board.boardSides[side].house[hnum];
         if (nSeeds === 0) {
@@ -303,8 +314,15 @@ var game;
         // console.log("before: " + JSON.stringify(stateBefore));
         // console.log("now: " + JSON.stringify(state));
         var hnum = col;
-        if (side === 1) {
-            hnum = NUM_HOUSES - 1 - hnum;
+        if (!shouldFlipDisplay()) {
+            if (side === 1) {
+                hnum = NUM_HOUSES - 1 - hnum;
+            }
+        }
+        else {
+            if (side === 0) {
+                hnum = NUM_HOUSES - 1 - hnum;
+            }
         }
         var seedsBefore = stateBefore.board.boardSides[side].store;
         var seedsNow = state.board.boardSides[side].store;

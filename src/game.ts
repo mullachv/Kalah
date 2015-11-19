@@ -8,6 +8,7 @@ module game {
   export var isHelpModalShown: boolean = false;
   let INIT_SEED_COUNT_PER_HOUSE = 4;
   let MAX_ROWS_IN_A_HOUSE = 8;
+  var flipMode = false; //board side switching in display
 
   export function init() {
     console.log("Translation of 'RULES_OF_KALAH' is " + translate('RULES_OF_KALAH'));
@@ -67,6 +68,7 @@ module game {
     // Is it the computer's turn?
     isComputerTurn = canMakeMove &&
         params.playersInfo[params.yourPlayerIndex].playerId === '';
+
     if (isComputerTurn) {
       // To make sure the player won't click something and send a move instead of the computer sending a move.
       canMakeMove = false;
@@ -81,6 +83,18 @@ module game {
         sendComputerMove();
     //  }
     }
+
+    //flip the directions on the board, if mode is 'passAndPlay' or 'multi-player'
+    flipMode = canMakeMove && params.playMode === 'passAndPlay';
+    flipMode = flipMode || canMakeMove && params.playMode === 1;
+
+    //And if yourPlayerIndex is 1
+    flipMode = flipMode && params.yourPlayerIndex === 1;
+    console.log("flip: " + flipMode);
+  }
+
+  export function shouldFlipDisplay() {
+    return flipMode;
   }
 
   export function getStoreCount(side: number): number {
@@ -98,10 +112,17 @@ module game {
   }
 
   export function getHouseSeedCount(side: number, house: number): number {
-    if (side === 1) {
-      house = NUM_HOUSES - 1 - house;
+    if (!shouldFlipDisplay()) {//normal display player 1 farther, player 0 near side
+        if (side === 1) {
+          house = NUM_HOUSES - 1 - house;
+        }
+        return state.board.boardSides[side].house[house];
+    } else {
+        if (side === 0) {
+          house = NUM_HOUSES - 1 - house;
+        }
+        return state.board.boardSides[side].house[house];
     }
-    return state.board.boardSides[side].house[house];
   }
 
   export function getHouseSeedCountAsArray(side: number, house:number): number[] {
@@ -266,23 +287,6 @@ module game {
     return hs;
   }
 
-  //boardside: 0|1; house: 0..5, rnum: 0..7, cnum:0|1
-  export function IsKalahInHouseCell(side:number, hnum:number,
-      rnum: number, cnum: number) {
-      //  console.log("IsKalahInHouseCell: ");
-      let boardHouseNum = hnum;
-      if (side === 1) {
-        boardHouseNum = NUM_HOUSES - 1 - hnum;
-      }
-
-      let nSeeds = state.board.boardSides[side].house[boardHouseNum];
-      let impliedCount = rnum * 2 + cnum+1;
-      if (nSeeds >= impliedCount) {
-        return true;
-      }
-      return false;
-  }
-
   export function houseClicked(side:number, hnum: number):void {
     if (!canMakeMove) {
       return;
@@ -290,8 +294,14 @@ module game {
     if (turnIndex != side) {
       return;
     }
-    if (side === 1) {
-      hnum = NUM_HOUSES - 1 - hnum;
+    if (!shouldFlipDisplay()) {//nomal display player 0 is the near side
+      if (side === 1) {
+        hnum = NUM_HOUSES - 1 - hnum;
+      }
+    } else {
+      if (side === 0) {
+        hnum = NUM_HOUSES - 1 - hnum;
+      }
     }
 
     let nSeeds = state.board.boardSides[side].house[hnum];
@@ -325,8 +335,14 @@ module game {
     // console.log("before: " + JSON.stringify(stateBefore));
     // console.log("now: " + JSON.stringify(state));
     let hnum = col;
-    if (side === 1) {
-      hnum = NUM_HOUSES - 1 - hnum;
+    if (!shouldFlipDisplay()) {//player 0 is the near side
+      if (side === 1) {
+        hnum = NUM_HOUSES - 1 - hnum;
+      }
+    } else {
+      if (side === 0) {
+        hnum = NUM_HOUSES - 1 - hnum;
+      }
     }
     let seedsBefore = stateBefore.board.boardSides[side].store;
     let seedsNow = state.board.boardSides[side].store;
