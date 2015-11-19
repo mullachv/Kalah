@@ -76,9 +76,144 @@ var game;
         }
     }
     function getStoreCount(side) {
+        //console.log("Store count called: " + side + "num: " + state.board.boardSides[side].store);
         return state.board.boardSides[side].store;
     }
     game.getStoreCount = getStoreCount;
+    function getStoreCountAsArray(side) {
+        var narr = [];
+        var stCount = getStoreCount(side);
+        for (var c = 1; c <= stCount; c++) {
+            narr.push(c);
+        }
+        return narr;
+    }
+    game.getStoreCountAsArray = getStoreCountAsArray;
+    function getHouseSeedCount(side, house) {
+        if (side === 1) {
+            house = NUM_HOUSES - 1 - house;
+        }
+        return state.board.boardSides[side].house[house];
+    }
+    game.getHouseSeedCount = getHouseSeedCount;
+    function getHouseSeedCountAsArray(side, house) {
+        var narr = [];
+        var stCount = getHouseSeedCount(side, house);
+        for (var c = 1; c <= stCount; c++) {
+            narr.push(c);
+        }
+        //console.log("stc: " + stCount);
+        //console.log("narr: " + JSON.stringify(narr));
+        return narr;
+    }
+    game.getHouseSeedCountAsArray = getHouseSeedCountAsArray;
+    var seedInStore = [
+        { t: 51, l: 52 },
+        { t: 49, l: 23 },
+        { t: 53, l: 44 },
+        { t: 57, l: 35 },
+        { t: 45, l: 37 },
+        { t: 35, l: 80 },
+        { t: 58, l: 66 },
+        { t: 72, l: 16 },
+        { t: 78, l: 19 },
+        { t: 83, l: 36 },
+        { t: 65, l: 47 },
+        { t: 64, l: 45 },
+        { t: 23, l: 72 },
+        { t: 43, l: 75 },
+        { t: 56, l: 72 },
+        { t: 89, l: 43 },
+        { t: 84, l: 37 },
+        { t: 77, l: 23 },
+        { t: 62, l: 13 },
+        { t: 11, l: 19 },
+        { t: 83, l: 25 },
+        { t: 53, l: 27 },
+        { t: 44, l: 37 },
+        { t: 37, l: 32 },
+        { t: 17, l: 41 },
+        { t: 56, l: 42 },
+        { t: 62, l: 48 },
+        { t: 56, l: 49 },
+        { t: 51, l: 58 },
+        { t: 27, l: 56 },
+        { t: 29, l: 14 },
+        { t: 27, l: 62 },
+        { t: 28, l: 67 },
+        { t: 35, l: 2 },
+        { t: 42, l: 8 },
+        { t: 44, l: 8 },
+        { t: 43, l: 72 },
+        { t: 67, l: 67 },
+        { t: 56, l: 13 },
+        { t: 55, l: 31 },
+        { t: 67, l: 14 },
+        { t: 66, l: 19 },
+        { t: 62, l: 27 },
+        { t: 73, l: 42 },
+        { t: 74, l: 35 },
+        { t: 81, l: 3 },
+        { t: 89, l: 38 },
+        { t: 12, l: 76 }
+    ];
+    var storeStyleVal = {
+        position: 'absolute',
+        width: '20%',
+        height: '10%',
+        top: '%',
+        left: '%'
+    };
+    function getStoreSeedStyle(seed) {
+        var td = seedInStore[seed].t;
+        var ld = seedInStore[seed].l;
+        storeStyleVal.top = td + '%';
+        storeStyleVal.left = ld + '%';
+        return storeStyleVal;
+    }
+    game.getStoreSeedStyle = getStoreSeedStyle;
+    var seedInHouse = [
+        { t: 51, l: 52 },
+        { t: 49, l: 23 },
+        { t: 53, l: 44 },
+        { t: 57, l: 35 },
+        { t: 45, l: 37 },
+        { t: 35, l: 80 },
+        { t: 58, l: 66 },
+        { t: 62, l: 16 },
+        { t: 68, l: 19 },
+        { t: 23, l: 36 },
+        { t: 65, l: 47 },
+        { t: 64, l: 45 },
+        { t: 23, l: 72 },
+        { t: 43, l: 75 },
+        { t: 56, l: 72 },
+        { t: 19, l: 43 },
+        { t: 44, l: 37 },
+        { t: 77, l: 23 },
+        { t: 62, l: 13 },
+        { t: 11, l: 19 },
+        { t: 33, l: 25 },
+        { t: 53, l: 27 },
+        { t: 44, l: 37 },
+        { t: 37, l: 32 },
+        { t: 17, l: 41 }
+    ];
+    var houseSeedStyleVal = {
+        position: 'absolute',
+        width: '20%',
+        height: '20%',
+        top: '%',
+        left: '%'
+    };
+    function getHouseSeedStyle(seed) {
+        var td = seedInHouse[seed].t;
+        var ld = seedInHouse[seed].l;
+        houseSeedStyleVal.top = td + '%';
+        houseSeedStyleVal.left = ld + '%';
+        return houseSeedStyleVal;
+    }
+    game.getHouseSeedStyle = getHouseSeedStyle;
     function isKalahInStore(boardside, storeRowNum, storeColNum) {
         var impliedCount = storeRowNum * 2 + storeColNum + 1;
         if (state.board.boardSides[boardside].store >= impliedCount) {

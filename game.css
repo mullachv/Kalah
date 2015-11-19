@@ -1,69 +1,30 @@
-.rg {
-  border-right: 4pt solid darkorange;
-}
-.bg {
-  border-bottom: 4pt solid darkorange;
-}
-
-.lg {
-  border-left: 4pt solid darkorange;
-}
-
-.tg {
-  border-top: 4pt solid darkorange;
-  border: 4pt solid darkorange;
-}
 
 .house {
-  background-color: bisque;
+  /** background-color: bisque;*/
+  background-image: url(imgs/house-hori.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
 }
 
-.vgap {
-  background-color: burlywood;
-  background: repeating-linear-gradient(
-    2deg,
-    DarkGoldenRod,
-    DarkGoldenRod 10px,
-    burlywood 10px,
-    burlywood 40px
-  );
+.KalahBoard {
+  background-image: url(imgs/board-hori.png);
+  background-repeat: no-repeat;
+  background-size: 150%;
+  background-position: center;
 }
 
 .store {
-  background-color: burlywood;
-  /*
-  background: repeating-radial-gradient(
-  circle,
-  DarkGoldenRod 5px,
-  DarkGoldenRod 20px,
-  burlywood 5px,
-  burlywood 100px
-);
-*/
-  background: repeating-linear-gradient(
-    2deg,
-    DarkGoldenRod,
-    DarkGoldenRod 10px,
-    burlywood 10px,
-    burlywood 120px
-  );
-
+  background-image: url(imgs/store-hori.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
 }
 
-.rb {
-  border-right: 4pt solid cornflowerblue;
-}
-.bb {
-  border-bottom: 4pt solid cornflowerblue;
-}
-
-.lb {
-  border-left: 4pt solid cornflowerblue;
-}
-
-.tb {
-  border-top: 4pt solid cornflowerblue;
-  border: 4pt solid cornflowerblue;
+.seedtext {
+  font-family: Calibri;
+  font-size: 20pt;
+  center;
+  width=100%;
 }
 
 .mancalas {
@@ -79,6 +40,7 @@
 .inhouse {
   rx: 30%;
   ry: 10%;
+  overflow: visible;
 }
 
 .slowlyAppear {
