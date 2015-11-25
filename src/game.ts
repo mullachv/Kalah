@@ -380,7 +380,9 @@ angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])
   translate.setLanguage('en',  {
     RULES_OF_KALAH: "Rules of Kalah",
     RULES_SLIDE1: "Players take turns to sow the seeds anti-clockwise.",
-    RULES_SLIDE2: "The one to collect more than 24 seeds in their store wins.",
+    RULES_SLIDE2: "Game ends when either one of the sides is empty.",
+    RULES_SLIDE3: "If the last sown seed is in store, player's turn continues.",
+    RULES_SLIDE4: "If the last sown seed is in one's own empty house, then the player collects all the seeds from the opposite house (opponent's) and one's last sown seed.",
     CLOSE: "Close"
   });
   game.init();
