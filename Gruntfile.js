@@ -104,13 +104,13 @@ module.exports = function(grunt) {
         singleRun: true
       }
     },
-    copy: {
-      imgs: {
-        expand: true,
-        src: 'imgs/*.*',
-        dest: 'dist/'
-      }
-    },
+    // copy: {
+    //   imgs: {
+    //     expand: true,
+    //     src: 'imgs/*.*',
+    //     dest: 'dist/'
+    //   }
+    // },
     concat: {
       options: {
         separator: ';',
@@ -224,7 +224,7 @@ module.exports = function(grunt) {
   // Default task(s).
   grunt.registerTask('default', [
       'karma',
-      'copy',
+    //  'copy',
       'concat', 'postcss', 'uglify',
       'processhtml', 'manifest' ]);
     //  'http-server', 'protractor']);
