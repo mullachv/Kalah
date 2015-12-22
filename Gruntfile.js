@@ -172,7 +172,7 @@ module.exports = function(grunt) {
             'http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/fonts/glyphicons-halflings-regular.ttf',
             'http://yoav-zibin.github.io/emulator/dist/turnBasedServices.3.min.js',
             'http://yoav-zibin.github.io/emulator/main.css',
-            'js/everything.min.js',
+            'dist/js/everything.min.js',
             'game.css',
             'css/everything.min.css',
             'imgs/HelpSlide1.png',
@@ -185,8 +185,8 @@ module.exports = function(grunt) {
             'imgs/house-hori.png'
           ],
           network: [
-            'js/everything.min.js.map',
-            'js/everything.js'
+            'dist/js/everything.min.js.map',
+            'dist/js/everything.js'
           ],
           timestamp: true
         },
