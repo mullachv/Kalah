@@ -240,7 +240,7 @@ var gameLogic;
     var flipMode = false; //board side switching in display
     function init() {
         console.log("Translation of 'RULES_OF_KALAH' is " + translate('RULES_OF_KALAH'));
-        resizeGameAreaService.setWidthToHeight(1.67);
+        resizeGameAreaService.setWidthToHeight(1.93);
         gameService.setGame({
             minNumberOfPlayers: 2,
             maxNumberOfPlayers: 2,
