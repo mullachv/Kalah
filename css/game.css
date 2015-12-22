@@ -1,20 +1,20 @@
 
 .house {
   /** background-color: bisque;*/
-  background-image: url(imgs/house-hori.png);
+  background-image: url(../imgs/house-hori.png);
   background-repeat: no-repeat;
   background-size: 95%;
 }
 
 .KalahBoard {
-  background-image: url(imgs/board-hori.png);
+  background-image: url(../imgs/board-hori.png);
   background-repeat: no-repeat;
   background-size: 150%;
   background-position: center;
 }
 
 .store {
-  background-image: url(imgs/store-hori.png);
+  background-image: url(../imgs/store-hori.png);
   background-repeat: no-repeat;
   background-size: 95%;
   background-position: center;
@@ -23,8 +23,8 @@
 .seedtext {
   font-family: Calibri;
   font-size: 20pt;
-  center;
-  width=100%;
+  text-align: center;
+  width: 100%;
 }
 
 .slowlyAppear {
