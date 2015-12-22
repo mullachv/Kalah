@@ -177,6 +177,8 @@ module.exports = function(grunt) {
             'css/everything.min.css',
             'imgs/HelpSlide1.png',
             'imgs/HelpSlide2.png',
+            'imgs/HelpSlide3.png',
+            'imgs/HelpSlide4.png',
             'imgs/stone-0.png',
             'imgs/board-hori.png',
             'imgs/store-hori.png',
