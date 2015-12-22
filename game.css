@@ -3,20 +3,20 @@
   /** background-color: bisque;*/
   background-image: url(imgs/house-hori.png);
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: 95%;
 }
 
 .KalahBoard {
   background-image: url(imgs/board-hori.png);
   background-repeat: no-repeat;
-  background-size: 150%;
+  background-size: 122%;
   background-position: center;
 }
 
 .store {
   background-image: url(imgs/store-hori.png);
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: 95%;
   background-position: center;
 }
 
