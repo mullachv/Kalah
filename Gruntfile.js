@@ -226,7 +226,7 @@ module.exports = function(grunt) {
       'karma',
       'copy',
       'concat', 'postcss', 'uglify',
-      'processhtml', 'manifest',
-      'http-server', 'protractor']);
+      'processhtml', 'manifest' ]);
+    //  'http-server', 'protractor']);
 
 };
